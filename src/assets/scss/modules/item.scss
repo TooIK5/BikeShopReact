@@ -1,0 +1,33 @@
+
+    .SellingsItems {
+        height: auto;
+         width: 100%;
+   }
+ 
+
+.Item {
+    display: flex;
+    width: 100%;
+    min-height: 30vh;
+    flex-direction: row;
+    margin-bottom: 10px;
+    background: #f8f8f8;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.6);
+}
+.Item-info {
+     padding: 1%;
+     width: 100%;
+     
+}
+
+.Item-photo {
+    width: 25vw;
+    img {
+        height: 100%;
+        width: 100%;
+    }
+
+}

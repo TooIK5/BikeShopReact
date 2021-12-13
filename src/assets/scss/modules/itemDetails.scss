@@ -1,0 +1,39 @@
+.itemDetails {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.itemDetails-info {
+font-size: 14px;
+padding: 5px 5px 5px 10px;
+color: "#fffffa"
+}
+
+.itemDetails-carousel {
+    width: auto;
+    height: auto;
+
+}
+
+.itemDetails-carouselPhoto {
+    border-radius: 5px;
+  
+}
+
+.itemDetails-parameters {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.itemDetails-underline {
+    flex: 1;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.itemDetails-parameter {
+    width: 20%;
+}

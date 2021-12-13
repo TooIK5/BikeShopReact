@@ -1,0 +1,17 @@
+﻿
+npm init
+npm i webpack webpack-cli webpack-dev-server -D (-D = --save-dev) //path не нужен
+ // --save-de делает запись что модуль уже установлен	     
+// и если мы сделаем потом передав кому-либо pacage.json  - npm i, 
+то модули установятся
+--mode production в  pacage.json направлен на минификацию
+development - работает быстрее
+npm i @babel/core @babel/preset-env babel-loader @babel-preset-react @babel/preset-stage-3 -D
+npm i style-loader css-loader -D
+(npm i extract-text-webpack-plugin@next -D //@next - бета версия для вебпака 4)
+//для извлечения из JS файла кода стилей
+npm i mini-css-extract-plugin -D 
+npm i -D mini-css-extract-plugin
+npm i sass-loader node-sass -D
+npm i postcss-loader autoprefixer css-mqpacker cssnano -D
+npm install react react-dom --save

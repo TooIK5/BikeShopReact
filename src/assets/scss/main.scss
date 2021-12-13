@@ -1,0 +1,56 @@
+@import "utils/libs";
+@import "utils/vars";
+@import "utils/mixins";
+@import "utils/fonts";
+@import "utils/reset";
+
+html {
+  line-height: $mainLineHeight;
+	font-size: $mainFontSize;
+	color: $mainFontColor;
+  height: 100%;
+
+body {
+ 
+  margin: 0;
+  padding: 0;
+}
+ 
+ 
+
+a { text-decoration: none; }
+
+}
+
+// Modules
+// @import "modules/my-module.scss";
+@import 'modules/content';
+@import 'modules/navBar';
+@import 'modules/header';
+@import 'modules/item';
+@import 'modules/filter';
+@import 'modules/itemDetails';
+
+.app-wrapper {
+  width: 100%;
+  height: auto;
+};
+
+.wrapp-allContent {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    flex-flow: wrap;
+    flex-shrink: inherit;
+    min-height: 90vh;
+    top: 10vh;
+}
+
+ 
+   
+
+ 
+
+ 
+ 
+ 
