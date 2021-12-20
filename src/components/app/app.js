@@ -26,11 +26,11 @@ return (
            <Route path="/" render={() =>  <NavContainer/>}/>
            </div>
            <div className="content">
-           {/* <SellingsItemsContainer /> */}
+         {/*  <SellingsItemsContainer />  */}
 
           {/*  <Route path='/item/:userId?' render={() =>  <ItemDetailsContainer /> }/> */}
-             {/* <ItemDetailsContainer />  */}
-             <AdContainer/>
+        {/*       <ItemDetailsContainer />  */} 
+               <AdContainer/> 
            </div>
           </div>
         <div/>
