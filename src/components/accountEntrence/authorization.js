@@ -17,8 +17,8 @@ let Auth = () => {
   initialValues={{
     remember: true,
   }}
-  onFinish={onFinish}
-  onFinishFailed={onFinishFailed}
+/*  onFinish={onFinish}
+  onFinishFailed={onFinishFailed}*/
   autoComplete="off"
 >
   <Form.Item

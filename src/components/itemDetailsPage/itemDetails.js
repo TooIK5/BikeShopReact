@@ -1,14 +1,27 @@
 import React from "react";
-import {  Typography, Carousel, Button, Image } from 'antd';
-import { StarFilled, AimOutlined } from '@ant-design/icons';
+import {  Typography, Button, Image } from 'antd';
+import {  AimOutlined } from '@ant-design/icons';
 const { Title, Text } = Typography;
 import {  useState } from "react";
+import { Breadcrumb } from 'antd';
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
  
 let ItemDetails = () => {
 
     const [visible, setVisible] = useState(false);
     return <div className="itemDetails">
         <div className="itemDetails-carousel" >
+        <div className="itemDetails-breadCramb">
+      <Breadcrumb >
+      <Breadcrumb.Item>
+      <NavLink to="/">Главная</NavLink>
+    </Breadcrumb.Item>
+    <Breadcrumb.Item>
+      <NavLink to="/items">Товары</NavLink>
+    </Breadcrumb.Item>
+    <Breadcrumb.Item>Объявление</Breadcrumb.Item>
+      </Breadcrumb>
+        </div> 
         <Image
         style={{
             borderRadius: "5px",
@@ -57,7 +70,7 @@ let ItemDetails = () => {
         <a href="+375(29)5532989">+375(29)5532989</a>
         <br/>
         <br/>
-        <Button type="primary">Написать</Button>
+        <Button type="primary" disabled>Написать</Button>
         
      </div>
     </div>

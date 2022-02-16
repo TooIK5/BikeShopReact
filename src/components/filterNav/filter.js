@@ -1,89 +1,126 @@
 import React from "react";
 import 'antd/dist/antd.css';
 import '../../../node_modules/antd/dist/antd.css';
-import { Select, Typography, Slider, Switch, Radio, Button } from 'antd';
-import { AudioOutlined, ArrowUpOutlined, AimOutlined } from '@ant-design/icons';
-const { Text } = Typography;
-const { Option } = Select;
-
-function onChangeCondition(e) {
-    console.log('checked = ', e.target.value);
-  }
-  
-function onChangeCity(value) {
-    console.log(`selected ${value}`);
-  }
-
-  function onChangeNeighborhood(value) {
-    console.log(`selected ${value}`);
-  }
+import { Form, Typography, Slider, Row, Col, Cascader, Checkbox ,  Radio, Button,InputNumber } from 'antd';
+import Params from "./checkBoxValues"
+const {Title} = Typography;
+const formItemLayout = {
+labelCol: {span: 0},
+wrapperCol: {span: 100},
+};
 
 class Filter extends React.Component {
- 
- 
+
     state = {
-        disabled: false,
+        min: 200,
+        max: 5000
       };
+      
+        onFinish = (state, values) => {
+            values.priceRange = state
+        console.log('Received values of form: ', values);
+        };
     
-      handleDisabledChange = disabled => {
-        this.setState({ disabled });
+      onChange = value => {
+        if (value[0] < value[1]) {
+          this.setState({ min: value[0], max: value[1] });
+        }
+      };
+  
+      onChangeMin = value => {
+        if (this.state.max > value) {
+          this.setState({ min: value });
+        }
+      };
+      onChangeMax = value => {
+        if (this.state.min < value) {
+          this.setState({ max: value });
+        }
       };
 
-    render () { 
-        const { disabled } = this.state;
-        return <div className="filter">
-            <span>Стоимость:</span>
-<Slider range defaultValue={[20, 50]} disabled={disabled} />
-        Выкл: <Switch size="small" checked={disabled} onChange={this.handleDisabledChange} />
-        <br/>
-        <Select
-    showSearch
-    style={{ width: "100%", marginTop: "15px" }}
-    placeholder="Выбрать город"
-    optionFilterProp="children"
-    onChange={onChangeCity}
-    filterOption={(input, option) =>
-      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-    }
-  >
-    <Option value="Minsk">Минск</Option>
-    <Option value="Grodno">Гродно</Option>
-    <Option value="Gomel">Гомель</Option>
-    <Option value="Vitebsk">Витебск</Option>
-    <Option value="Mogilev">Могилев</Option>
-    <Option value="Brest">Брест</Option>
-  </Select>
-  
-  <Select
-    showSearch
-    style={{  width: "100%", marginTop: "15px"}}
-    placeholder="Выбрать район"
-    optionFilterProp="children"
-    onChange={onChangeNeighborhood}
-    filterOption={(input, option) =>
-      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-    }
-  >
-    <Option value="1">Советский</Option>
-    <Option value="2">Ленинский</Option>
-    <Option value="3">Еще какой-то</Option>
-   
-  </Select>
-  <Radio.Group 
-  style={{   marginTop: "15px" }} 
-  defaultValue="any" 
-  buttonStyle="solid"
-  onChange={onChangeCondition} 
- >
-      <Radio.Button  style={{ "box-shadow": "none"   }} value="new">Новое</Radio.Button>
-      <Radio.Button value="used">Б/У</Radio.Button>
-      <Radio.Button value="any">Любое</Radio.Button>
-    </Radio.Group>
-  <br/>
-  <Button type="primary" style={{width: "100%", marginTop: "15px"}}>Поиск</Button>
+    render () {
+       const { max, min } = this.state;
+        return (<div className="filter">
+    <Form
+        name="validate_other"
+        {...formItemLayout}
+        onFinish={this.onFinish.bind(this, this.state )}
+         >
+        <Title level={5}>Город</Title>
+        <Form.Item name="location">
+            <Cascader
+                options={[
+                    {
+                        value: 'Minsk',
+                        label: 'Minsk',
+                        children: [
+                            {
+                                value: 'Район',
+                                label: 'Советский',
+                            },
+                        ],
+                    },
+                ]}
+            />
+        </Form.Item>
+        <Title level={5}>Цена</Title>
+        <Row>
+        <Col span={8}>
+        <Form.Item   >      
+    <InputNumber
+    name="maxInput" 
+    min={200}
+    max={5000}
+    defaultValue={max}
+    value={min}
+    onChange={this.onChangeMin}/>
+</Form.Item>
+        </Col>
+        <Col span={3}>
+          <span>—</span> 
+         </Col>
+        <Col span={8}>
+        <Form.Item  >      
+    <InputNumber
+               defaultValue={min}
+                min={200}
+                max={5000}
+                onChange={this.onChangeMax}
+                value={max}/>
+</Form.Item>
+        </Col>
+        </Row>
+        <Form.Item >
+        <Slider  name="Slider"
+                 min={200}
+                 max={5000}
+                 onChange={this.onChange}
+                 range
+                 defaultValue={[min, max]}
+                 value={[min, max]} />
+            </Form.Item>
+                    <Form.Item name="item-type" >
+                        <Checkbox.Group style={{ width: '100%',}} >
+                        <Params />
+                        </Checkbox.Group> 
+                        </Form.Item> 
 
-    </div> }
-    } 
- 
+        <Form.Item name="itemState"
+                    initialValue="any"
+                    rules={[{required: false, message: ''}]}>
+            <Radio.Group
+                style={{width: "100"}}
+                buttonStyle="solid">
+                <Radio.Button value="new">Новое</Radio.Button>
+                <Radio.Button value="used">Б/У</Radio.Button>
+                <Radio.Button value="any">Любое</Radio.Button>
+            </Radio.Group>
+        </Form.Item>
+        <Form.Item >
+            <Button type="primary" htmlType="submit" style={{width: "100%", marginTop: "15px"}}>Поиск </Button>
+        </Form.Item>
+    </Form>
+</div>)}
+}
 
 export default Filter;

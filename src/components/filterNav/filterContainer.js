@@ -1,12 +1,11 @@
 import React from "react";
 import Filter from "./filter";
+import {connect} from "react-redux";
 
-class FilterContainer extends React.Component {
-    render () {
-        return (
-            <Filter />
-        )
-    }
-}
+let FilterContainer = (state) => {
+    return   <Filter />
+ 
+};
 
+ 
 export default FilterContainer;

@@ -1,47 +1,40 @@
-import { compose } from "redux";
-import {Route, withRouter} from "react-router-dom";
-import {connect} from "react-redux";
-import React from "react";
+
+import {Route} from "react-router-dom";
+import React, {useEffect} from "react";
 import '../../assets/scss/main.scss';
 import HeaderContainer from "../Header/headerContainer";
-import NavContainer from "../Navigation/navContainer";
+import Categories from "../Categories/categories";
 import SellingsItemsContainer from "../SellinsItems/SellingsItemsContainer"
 import '../../../node_modules/antd/dist/antd.css';
 import FilterContainer from "../filterNav/filterContainer";
 import ItemDetailsContainer from "../itemDetailsPage/itemDetailsContainer"
 import AdContainer from "../adAddPage/adContainer";
-const   { Component } = require("react");
+import {useDispatch} from "react-redux";
+import { fetchItems } from "../../redux/itemsSlice"
 
-class App extends Component {
-   
-   render() {
-return ( 
-<div>
-    <HeaderContainer /> 
-<div className="app-wrapper">
-         
-        <div className="wrapp-allContent">
-           <div className="navBarContainer">
-           <Route path="/items" render={() =>  <FilterContainer />}/>
-           <Route path="/" render={() =>  <NavContainer/>}/>
-           </div>
-           <div className="content">
-           {/* <SellingsItemsContainer /> */}
+const App = () => {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchItems());
+    }, [dispatch])
 
-          {/*  <Route path='/item/:userId?' render={() =>  <ItemDetailsContainer /> }/> */}
-             {/* <ItemDetailsContainer />  */}
-             <AdContainer/>
-           </div>
-          </div>
-        <div/>
+    return <div>
+        <HeaderContainer/>
+        <div className="app-wrapper">
+            <div className="wrapp-allContent">
+                <div className="navBarContainer">
+                    <Route exact path="/items" render={() => <FilterContainer/>}/>
+                </div>
+                <div className="content">
+                    <Route exact path="/" render={() => <Categories/>}/>
+                    <Route path="/addAd" render={() => <AdContainer/>}/>
+                    <Route exact path="/items" render={() => <SellingsItemsContainer/>}/>
+                    <Route exact path="/item/:id?" render={() => <ItemDetailsContainer/>}/>
+                </div>
+            </div>
+            <div/>
+        </div>
     </div>
-</div>
-)
-   }
 }
 
-const mapStateToProps = (state) => ({
-   // initialized: state.app.initialized
-});
-
-export default compose(withRouter, connect(mapStateToProps))(App);
+export default App;

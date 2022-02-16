@@ -1,41 +1,38 @@
 import React from "react";
-import {  Typography,
-     Button,
-      Upload,
-     Select,
+import {
+    Typography,
+    Button,
+    Upload,
     Form,
-    Switch,
+    TreeSelect,
     Radio,
-    Checkbox,
-    Row,
-    Col,
-    Input
- } from 'antd';
+    Input, Cascader
+} from 'antd';
 
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 
 const { Title, Text } = Typography;
-const { Option } = Select;
+const { TextArea } = Input;
 
+    const onFinish = (values) => {
+      console.log('Received values of form: ', values);
+    };
 const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 12 },
-};
-
-const normFile = (e) => {
-  console.log('Upload event:', e);
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e && e.fileList;
-};
-
-const Demo = () => {
-  }
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    labelCol: { span: 6 },
+    wrapperCol: { span: 14 },
   };
+  
+  const normFile = ( any) => {
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e &&  console.log(e.fileList);
+  };
+
+
 let Ad = () => {
+
         return   <div className="ad-wrapp">
             <Title level={2} >Параметры объявления</Title> 
             
@@ -50,80 +47,80 @@ let Ad = () => {
         rate: 3.5,
       }}
     >
-        <Title level={4} >Название объявления</Title>
-        <Input placeholder="Basic usage" />
-       <Title level={4} >Выберите вид детали</Title>
-       <Form.Item
-        name="select"
-        label="Вид:"
+        <Form.Item
+        name="input"
+        label="Название"
         hasFeedback
-        rules={[{ required: true, message: 'Пожалуйста, выберите вид!' }]}
+        rules={[{ required: true, message: 'Пожалуйста, введите название!' }]}
       >
-        <Select placeholder="Выберите вид детали">
-          <Option value="china">China</Option>
-          <Option value="usa">U.S.A</Option>
-        </Select>
+        <Input placeholder="Выберите вид детали"/>
       </Form.Item>
-      <Title level={4} >Выберите тип детали</Title>
-      
+                 <Form.Item name="locationCas"
+                            label="Локация"
+                            rules={[{ required: true, message: 'Пожалуйста, введите локацию!' }]}>
+                     <Cascader
+                         options={[
+                             {
+                                 value: 'Minsk',
+                                 label: 'Minsk',
+                                 children: [
+                                     {
+                                         value: 'Район',
+                                         label: 'Neigborhood',
+                                     },
+                                 ],
+                             },
+                         ]}
+                     />
+                 </Form.Item>
+                 <Form.Item name="Category"
+                            label="Категрия"
+                            rules={[{ required: true, message: 'Пожалуйста, введите категорию!' }]}>
+                     <Cascader
+                         options={[
+                             {
+                                 value: 'Вилки',
+                                 label: 'Forks',
+                                 children: [
+                                     {
+                                         value: 'Rigid',
+                                         label: 'Ригидные',
+                                     },
+                                 ],
+                             },
+                         ]}
+                     />
+                 </Form.Item>
       <Form.Item
-        name="select"
-        label="Тип:"
+        name="description"
+        label="Описание"
         hasFeedback
-        rules={[{ required: true, message: 'Пожалуйста, выберите тип!' }]}
+        rules={[{ required: true, message: 'Пожалуйста, введите описание!' }]}
       >
-        <Select placeholder="Выберите тип детали">
-          <Option value="china">China</Option>
-          <Option value="usa">U.S.A</Option>
-        </Select>
+        <TextArea placeholder="Описание"/>
       </Form.Item>
-
-      
-
-      <Form.Item name="switch" label="Switch" valuePropName="checked">
-        <Switch />
-      </Form.Item>
-
-      <Form.Item name="radio-group" label="Radio.Group">
-        <Radio.Group>
-          <Radio value="a">item 1</Radio>
-          <Radio value="b">item 2</Radio>
-          <Radio value="c">item 3</Radio>
-        </Radio.Group>
-      </Form.Item>
-
       <Form.Item
         name="radio-button"
-        label="Radio.Button"
-        rules={[{ required: true, message: 'Please pick an item!' }]}
+        label="Состояние"
+        initialValue="any"
       >
-        <Radio.Group>
-          <Radio.Button value="a">item 1</Radio.Button>
-          <Radio.Button value="b">item 2</Radio.Button>
-          <Radio.Button value="c">item 3</Radio.Button>
+        <Radio.Group 
+         defaultValue="any"
+         buttonStyle="solid"
+         >
+          <Radio.Button value="used">Б/У</Radio.Button>
+          <Radio.Button value="new">Новое</Radio.Button>
+          <Radio.Button value="any">Любое</Radio.Button>
         </Radio.Group>
       </Form.Item>
-
-      <Form.Item name="checkbox-group" label="Checkbox.Group">
-        <Checkbox.Group>
-          <Row>
-            <Col span={8}>
-              <Checkbox value="A" style={{ lineHeight: '32px' }}>
-                A
-              </Checkbox>
-            </Col>
-            <Col span={8}>
-              <Checkbox value="B" style={{ lineHeight: '32px' }} >
-                B
-              </Checkbox>
-           
-            </Col>
-          </Row>
-        </Checkbox.Group>
+      <Form.Item
+        name="cost"
+        label="Цена"
+        hasFeedback
+        rules={[{ required: true, message: 'Пожалуйста, введите цену!' }]}
+      >
+        <Input placeholder="цена в BYN"/>
       </Form.Item>
-
-      
-
       <Form.Item
         name="upload"
         label="Upload"

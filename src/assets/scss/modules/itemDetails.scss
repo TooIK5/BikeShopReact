@@ -5,7 +5,12 @@
     flex-direction: row;
 }
 
+.itemDetails-breadCramb {
+    padding: 5px 0 5px 0;
+}
+
 .itemDetails-info {
+h3 {padding-top: 20px;}
 font-size: 14px;
 padding: 5px 5px 5px 10px;
 color: "#fffffa"
@@ -14,12 +19,10 @@ color: "#fffffa"
 .itemDetails-carousel {
     width: auto;
     height: auto;
-
 }
 
 .itemDetails-carouselPhoto {
     border-radius: 5px;
-  
 }
 
 .itemDetails-parameters {

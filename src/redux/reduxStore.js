@@ -17,13 +17,17 @@ window._store = store;
 
 // file: store.ts
 import { configureStore } from '@reduxjs/toolkit';
- 
- 
-import appReducer from './appSlice'
+import appReducer from './appSlice';
+import itemsSlice from './itemsSlice';
+import filtersSlice from './filtersSlice';
+import headerSlice from './headerSlice';
 
 export default configureStore({
   reducer: {
-    app: appReducer
+    app: appReducer,
+    items: itemsSlice,
+    filters: filtersSlice,
+    header: headerSlice
   }
 })
 

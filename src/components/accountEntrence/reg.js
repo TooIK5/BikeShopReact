@@ -1,21 +1,16 @@
-import React, {useState} from "react";
+import  React, {useState} from "react";
 import 'antd/dist/antd.css';
 import '../../../node_modules/antd/dist/antd.css';
 import {
     Form,
-    Input,
-    InputNumber,
     Cascader,
     Select,
-    Row,
-    Col,
-    Checkbox,
     Button,
-    AutoComplete,
+    Input
   } from 'antd';
 
 
-const { Option } = Select;
+ const { Option } = Select;
 const residences = [
   {
     value: 'zhejiang',
@@ -93,7 +88,7 @@ let Registration = () => {
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
+      <Select style={{ width: 100 }}>
         <Option value="+375">+375</Option>
       </Select>
     </Form.Item>
@@ -253,43 +248,6 @@ let Registration = () => {
       </Select>
     </Form.Item>
 
-    {/* <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-      <Row gutter={8}>
-        <Col span={12}>
-          <Form.Item
-            name="captcha"
-            noStyle
-            rules={[
-              {
-                required: true,
-                message: 'Please input the captcha you got!',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Button>Get captcha</Button>
-        </Col>
-      </Row>
-    </Form.Item> */}
-
-    {/* <Form.Item
-      name="agreement"
-      valuePropName="checked"
-      rules={[
-        {
-          validator: (_, value) =>
-            value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
-        },
-      ]}
-      {...tailFormItemLayout}
-    >
-      <Checkbox>
-        I have read the <a href="">agreement</a>
-      </Checkbox>
-    </Form.Item> */}
     <Form.Item {...tailFormItemLayout}>
       <Button type="primary" htmlType="submit">
         Зарегестрироваться

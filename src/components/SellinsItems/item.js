@@ -4,13 +4,13 @@ import {  Typography } from 'antd';
 import { StarFilled, AimOutlined } from '@ant-design/icons';
 const { Title, Text } = Typography;
 
-let Item = () => {
+let Item = ({id,title, url}) => {
     return <div className="Item">
        <div
         className="Item-photo"
        ><img
-       src="https://gw.alipayobjects.com/zos/antfincdn/K%24NnlsB%26hz/pageHeader.svg"
-       alt="content"
+       src={url}
+       alt={id}
      />
      </div>
         <div className="Item-info">
@@ -22,7 +22,7 @@ let Item = () => {
             float: "right",
         
         }} />
-        <Title level={3}>Втулка задняя   </Title>
+        <Title level={3}>{title}</Title>
         <Text  >Втулки</Text>
         <br/>
         <Text strong >10 р.</Text>
