@@ -4,8 +4,6 @@ import {connect} from "react-redux";
 
 let FilterContainer = (state) => {
     return   <Filter />
- 
 };
 
- 
 export default FilterContainer;

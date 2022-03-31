@@ -2,8 +2,10 @@ import React from "react";
 import 'antd/dist/antd.css';
 import '../../../node_modules/antd/dist/antd.css';
 import { Form, Typography, Slider, Row, Col, Cascader, Checkbox ,  Radio, Button,InputNumber } from 'antd';
-import Params from "./checkBoxValues"
-const {Title} = Typography;
+import Params from "./checkBoxValues";
+import {connect} from 'react-redux';
+
+const {Title, Text} = Typography;
 const formItemLayout = {
 labelCol: {span: 0},
 wrapperCol: {span: 100},
@@ -17,7 +19,8 @@ class Filter extends React.Component {
       };
       
         onFinish = (state, values) => {
-            values.priceRange = state
+            values.priceRange = state;
+            values.category = this.props.category;
         console.log('Received values of form: ', values);
         };
     
@@ -40,6 +43,7 @@ class Filter extends React.Component {
 
     render () {
        const { max, min } = this.state;
+     
         return (<div className="filter">
     <Form
         name="validate_other"
@@ -55,7 +59,7 @@ class Filter extends React.Component {
                         label: 'Minsk',
                         children: [
                             {
-                                value: 'Район',
+                                value: 'Советский',
                                 label: 'Советский',
                             },
                         ],
@@ -99,13 +103,13 @@ class Filter extends React.Component {
                  defaultValue={[min, max]}
                  value={[min, max]} />
             </Form.Item>
-                    <Form.Item name="item-type" >
+                    <Form.Item name="item-type" className="filter-checkboxs">
                         <Checkbox.Group style={{ width: '100%',}} >
                         <Params />
                         </Checkbox.Group> 
                         </Form.Item> 
 
-        <Form.Item name="itemState"
+        <Form.Item name="condition"
                     initialValue="any"
                     rules={[{required: false, message: ''}]}>
             <Radio.Group
@@ -123,4 +127,9 @@ class Filter extends React.Component {
 </div>)}
 }
 
-export default Filter;
+const mapStateToProps = (state) => ({
+  category: state.filters.currentCategory,
+});
+
+export default connect(mapStateToProps)(Filter);
+//export default Filter;

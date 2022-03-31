@@ -31,23 +31,26 @@ a { text-decoration: none; }
 @import 'modules/filter';
 @import 'modules/itemDetails';
 @import 'modules/Categories';
+@import 'modules/myAds';
+@import 'modules/account';
 
 .app-wrapper {
   width: 100%;
-  height: auto;
+  height: 100%;
   
 };
 
 .wrapp-allContent {
     display: flex;
     width: 100%;
+    min-width: 1000px;
     flex-direction: column;
     flex-flow: wrap;
     flex-shrink: inherit;
-    min-height: 90vh;
-    top: 10vh;
+    height: calc(100vh - 60px);
 }
- 
+
+
 
  
    

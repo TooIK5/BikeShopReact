@@ -1,0 +1,8 @@
+.categories-wrapp {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.categories-item {
+    padding: 5px;
+}

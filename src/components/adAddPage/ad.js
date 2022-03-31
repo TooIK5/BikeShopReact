@@ -2,14 +2,15 @@ import React from "react";
 import {
     Typography,
     Button,
+    InputNumber,
     Upload,
     Form,
-    TreeSelect,
     Radio,
     Input, Cascader
 } from 'antd';
 
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
+import { useSelector } from "react-redux";
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -17,36 +18,27 @@ const { TextArea } = Input;
     const onFinish = (values) => {
       console.log('Received values of form: ', values);
     };
-const formItemLayout = {
+
+
+  const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
   };
   
-  const normFile = ( any) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e &&  console.log(e.fileList);
+  const normFile = (e) => {
+    console.log('Upload event:', e.fileList);
   };
 
-
 let Ad = () => {
-
+        const location = useSelector(state => state.app.locations);
         return   <div className="ad-wrapp">
             <Title level={2} >Параметры объявления</Title> 
-            
-             <Form
+             
+            <Form
       name="validate_other"
-      
       {...formItemLayout}
       onFinish={onFinish}
-      initialValues={{
-        'input-number': 3,
-        'checkbox-group': ['A', 'B'],
-        rate: 3.5,
-      }}
-    >
+     >
         <Form.Item
         name="input"
         label="Название"
@@ -59,22 +51,11 @@ let Ad = () => {
                             label="Локация"
                             rules={[{ required: true, message: 'Пожалуйста, введите локацию!' }]}>
                      <Cascader
-                         options={[
-                             {
-                                 value: 'Minsk',
-                                 label: 'Minsk',
-                                 children: [
-                                     {
-                                         value: 'Район',
-                                         label: 'Neigborhood',
-                                     },
-                                 ],
-                             },
-                         ]}
+                         options={location}
                      />
                  </Form.Item>
                  <Form.Item name="Category"
-                            label="Категрия"
+                            label="Категория"
                             rules={[{ required: true, message: 'Пожалуйста, введите категорию!' }]}>
                      <Cascader
                          options={[
@@ -102,52 +83,43 @@ let Ad = () => {
       <Form.Item
         name="radio-button"
         label="Состояние"
-        initialValue="any"
+        initialValue="used"
       >
         <Radio.Group 
-         defaultValue="any"
          buttonStyle="solid"
          >
           <Radio.Button value="used">Б/У</Radio.Button>
           <Radio.Button value="new">Новое</Radio.Button>
-          <Radio.Button value="any">Любое</Radio.Button>
+          
         </Radio.Group>
       </Form.Item>
       <Form.Item
-        name="cost"
+       
+        name="price"
         label="Цена"
         hasFeedback
         rules={[{ required: true, message: 'Пожалуйста, введите цену!' }]}
       >
-        <Input placeholder="цена в BYN"/>
+        <InputNumber  placeholder="цена в BYN" min={0} max={100000} style={{width: 100}}  />
+ 
       </Form.Item>
       <Form.Item
         name="upload"
-        label="Upload"
+        label="Загрузить"
         valuePropName="fileList"
         getValueFromEvent={normFile}
         extra="Не более 10"
       >
-        <Upload name="logo" action="/upload.do" listType="picture">
+        <Upload   maxCount={10}
+                  multiple={true} 
+                  beforeUpload={() => false}
+                  listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
-
-      <Form.Item label="Dragger">
-        <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-          <Upload.Dragger name="files" action="/upload.do">
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-            <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-          </Upload.Dragger>
-        </Form.Item>
-      </Form.Item>
-
       <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
         <Button type="primary" htmlType="submit">
-          Submit
+          Отправить
         </Button>
       </Form.Item>
     </Form>

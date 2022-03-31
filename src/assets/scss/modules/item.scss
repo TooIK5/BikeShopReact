@@ -7,7 +7,7 @@
 .Item {
     display: flex;
     width: 100%;
-    min-height: 30vh;
+    min-height: 20vh;
     flex-direction: row;
     margin-bottom: 10px;
     background: #f8f8f8;
@@ -20,10 +20,13 @@
 .Item-info {
      padding: 1%;
      width: 100%;
+     font-size: 16px;
 }
 
 .Item-photo {
-    width: 25vw;
+    width: 15vw;
+    min-width: 200px;
+    max-height: 80px;
     img {
         height: 100%;
         width: 100%;
