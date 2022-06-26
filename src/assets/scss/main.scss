@@ -37,20 +37,25 @@ a { text-decoration: none; }
 .app-wrapper {
   width: 100%;
   height: 100%;
-  
 };
 
 .wrapp-allContent {
     display: flex;
     width: 100%;
-    min-width: 1000px;
+    //min-width: 1000px;
     flex-direction: column;
     flex-flow: wrap;
     flex-shrink: inherit;
     height: calc(100vh - 60px);
 }
 
+.visible {
+  display: block;
+}
 
+.unvisible {
+  display: none;
+}
 
  
    

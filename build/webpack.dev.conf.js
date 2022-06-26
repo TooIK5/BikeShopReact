@@ -1,5 +1,5 @@
 const webpack =  require('webpack');
-const {merge} = require('webpack-merge');
+const  merge  = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.base.conf');
 
 const devWebpackConfig = merge(baseWebpackConfig, {
@@ -8,7 +8,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     devtool: false,
     devServer: {
         //contentBase: baseWebpackConfig.externals.paths.dist,
-        port: 8080,
+        port: 1010,
         historyApiFallback: true,
         },
     plugins: [

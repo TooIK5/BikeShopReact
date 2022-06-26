@@ -1,10 +1,25 @@
 import React from "react";
 import 'antd/dist/antd.css';
 import '../../../node_modules/antd/dist/antd.css';
-import {  Button,  Form, Input, Checkbox } from 'antd';
+import { Button,  Form, Input, Checkbox } from 'antd';
+import { logIn } from "../../redux/API/API";
+import {useDispatch, useSelector} from "react-redux";
+import { Typography } from 'antd';
 
+const { Text } = Typography;
 
 let Auth = () => {
+    const dispatch = useDispatch();
+
+    const onFinish = (values) => {
+        localStorage.setItem('rememberMe', values.remember);
+        localStorage.setItem('user', values.remember ? values.username : '');
+         console.log("logIn: ", values)
+        dispatch(logIn(values));
+    };
+
+    const account = useSelector(state => state.account); 
+
     return  <div className="header-entrenceForm">
         <Form
   name="basic"
@@ -17,8 +32,7 @@ let Auth = () => {
   initialValues={{
     remember: true,
   }}
-/*  onFinish={onFinish}
-  onFinishFailed={onFinishFailed}*/
+ onFinish={onFinish}
   autoComplete="off"
 >
   <Form.Item
@@ -46,7 +60,7 @@ let Auth = () => {
   >
     <Input.Password />
   </Form.Item>
-
+  <Text type="danger">{account.error}<br/></Text>
   <Form.Item
     name="remember"
     valuePropName="checked"
@@ -64,6 +78,7 @@ let Auth = () => {
       span: 16,
     }}
   >
+      
     <Button type="primary" htmlType="submit">
       Войти
     </Button>

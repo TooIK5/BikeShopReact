@@ -1,50 +1,53 @@
-import  React, {useState} from "react";
+import  React, {useState, useEffect} from "react";
 import 'antd/dist/antd.css';
 import '../../../node_modules/antd/dist/antd.css';
+import {useDispatch, useSelector} from "react-redux";
+import {registration} from "../../redux/API/API";
+import { Typography } from 'antd';
+
+const { Text } = Typography;
 import {
     Form,
-    Cascader,
     Select,
     Button,
     Input
   } from 'antd';
 
-
  const { Option } = Select;
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+// const residences = [
+//   {
+//     value: 'zhejiang',
+//     label: 'Zhejiang',
+//     children: [
+//       {
+//         value: 'hangzhou',
+//         label: 'Hangzhou',
+//         children: [
+//           {
+//             value: 'xihu',
+//             label: 'West Lake',
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     value: 'jiangsu',
+//     label: 'Jiangsu',
+//     children: [
+//       {
+//         value: 'nanjing',
+//         label: 'Nanjing',
+//         children: [
+//           {
+//             value: 'zhonghuamen',
+//             label: 'Zhong Hua Men',
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ];
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -76,48 +79,24 @@ const tailFormItemLayout = {
   },
 };
 
-
-
 let Registration = () => {
-    
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
-
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+
+      dispatch(registration(values));
   };
-
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 100 }}>
-        <Option value="+375">+375</Option>
-      </Select>
-    </Form.Item>
-  );
-
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
+  const account = useSelector(state => state.account); 
+  
+  // const prefixSelector = (
+  //   <Form.Item name="prefix" noStyle>
+  //     <Select style={{ width: 100 }}>
+  //       <Option value="+375">+375</Option>
+  //     </Select>
+  //   </Form.Item>
+  // );
 
   const [autoCompleteResult, setAutoCompleteResult] = useState ([]);
-
-  const onWebsiteChange = (value) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(['.com', '.org', '.net'].map(domain => `${value}${domain}`));
-    }
-  };
-
-  const websiteOptions = autoCompleteResult.map(website => ({
-    label: website,
-    value: website,
-  }));
-
 
     return  <Form
     {...formItemLayout}
@@ -130,7 +109,7 @@ let Registration = () => {
     }}
     scrollToFirstError
   >
-    <Form.Item
+    {/* <Form.Item
       name="email"
       label="E-mail"
       rules={[
@@ -145,11 +124,25 @@ let Registration = () => {
       ]}
     >
       <Input />
-    </Form.Item>
+    </Form.Item> */}
 
+<Form.Item
+      name="username"
+      label="Nickname"
+      tooltip="Ваше имя"
+      rules={[
+        {
+          required: true,
+          message: 'Введите ваше имя',
+          whitespace: true,
+        },
+      ]}
+    >
+      <Input />
+    </Form.Item>
     <Form.Item
       name="password"
-      label="Password"
+      label="Пароль"
       rules={[
         {
           required: true,
@@ -163,21 +156,20 @@ let Registration = () => {
 
     <Form.Item
       name="confirm"
-      label="Confirm Password"
+      label="Подтвердите пароль"
       dependencies={['password']}
       hasFeedback
       rules={[
         {
           required: true,
-          message: 'Please confirm your password!',
+          message: 'Пожалуйста, введите пароль!',
         },
         ({ getFieldValue }) => ({
           validator(_, value) {
             if (!value || getFieldValue('password') === value) {
               return Promise.resolve();
             }
-
-            return Promise.reject(new Error('The two passwords that you entered do not match!'));
+            return Promise.reject(new Error('Пароли не совпадают'));
           },
         }),
       ]}
@@ -185,21 +177,7 @@ let Registration = () => {
       <Input.Password />
     </Form.Item>
 
-    <Form.Item
-      name="nickname"
-      label="Nickname"
-      tooltip="What do you want others to call you?"
-      rules={[
-        {
-          required: true,
-          message: 'Введите ваше имя',
-          whitespace: true,
-        },
-      ]}
-    >
-      <Input />
-    </Form.Item>
-
+{/* 
     <Form.Item
       name="residence"
       label="Местоположение"
@@ -207,13 +185,13 @@ let Registration = () => {
         {
           type: 'array',
           required: true,
-          message: 'Ведите ваше местоположение',
+          message: 'Введите ваше местоположение',
         },
       ]}
     >
       <Cascader options={residences} />
-    </Form.Item>
-
+    </Form.Item> */}
+{/* 
     <Form.Item
       name="phone"
       label="Номер телефона"
@@ -246,11 +224,13 @@ let Registration = () => {
         <Option value="female">Женский</Option>
         <Option value="other">Другой</Option>
       </Select>
-    </Form.Item>
-
+    </Form.Item> */}
+    
+    <Text type="danger">{account.error}<br/></Text>
+  
     <Form.Item {...tailFormItemLayout}>
       <Button type="primary" htmlType="submit">
-        Зарегестрироваться
+        Зарегистрироваться
       </Button>
     </Form.Item>
   </Form>

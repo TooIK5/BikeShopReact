@@ -2,20 +2,24 @@ import React, {useEffect} from "react";
 import Paginator from "../../components/COMMON/paginator"
 import Item from "./item"
 import {useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
+import {NavLink, useParams } from "react-router-dom";
 import { Breadcrumb } from 'antd';
 import {FilterOutlined} from "@ant-design/icons";
-import { fetchItems } from "../../redux/API/API";
+import { getAsyncAds } from "../../redux/API/API";
 import {useDispatch} from "react-redux";
 
+
 let SellingsItems = () => {
+  const dispatch = useDispatch();
+ 
+     const { categoryId } = useParams();
+ 
+   useEffect(() => {
+        dispatch(getAsyncAds({locationId: "UUID", categoryId: categoryId}));
+   }, [dispatch]);
 
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(fetchItems());
-    }, [dispatch]);
-
-    const items = useSelector( state => state.items.items);
+    const items = useSelector( state => state.items.items.items);
+    console.log(items);
     return <div className="SellingsItems">
         <div className="items-controllersBlock">
         <Breadcrumb >
@@ -29,12 +33,15 @@ let SellingsItems = () => {
       cursor: "pointer"
   }}/>
       </Breadcrumb>
-        </div>
-         
-        {items.map((item) => <NavLink to={"/item/" + item.id}> <Item key={item.id} {...item} /> </NavLink>
-        )}
+        </div> 
+        {items? items.map((item) => <NavLink to={"/item/" + item.id}> <Item key={item.id} {...item} /> </NavLink>
+        ) : null}
         <Paginator/>
     </div>
 }
 
+// let mapStateToProps = (state) => ({
+//   state: state
+// });
+ 
 export default SellingsItems;

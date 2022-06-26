@@ -1,0 +1,24 @@
+17.12.2020 20:07:38: ################################
+17.12.2020 20:07:38: Starting update
+17.12.2020 20:07:38: Toolbox update folder: F:\updates\
+17.12.2020 20:07:38: Toolbox folder: F:\
+17.12.2020 20:07:38: Installation Media Location: E:\\Toolbox\
+17.12.2020 20:07:38: Database: F:\lang\english\swbrowser.sldedb
+17.12.2020 20:07:38: Run from IM: True
+17.12.2020 20:07:40: Processing: 1600_Install Ansi Inch.tbox
+17.12.2020 20:07:53: Processing: 1600_Install Ansi Metric.tbox
+17.12.2020 20:07:57: Processing: 1600_Install AS.tbox
+17.12.2020 20:08:02: Processing: 1600_Install BSI.tbox
+17.12.2020 20:08:06: Processing: 1600_Install CISC.tbox
+17.12.2020 20:08:06: Processing: 1600_Install DIN.tbox
+17.12.2020 20:08:18: Processing: 1600_Install GB.tbox
+17.12.2020 20:08:34: Processing: 1600_Install IS.tbox
+17.12.2020 20:08:38: Processing: 1600_Install ISO.tbox
+17.12.2020 20:08:45: Processing: 1600_Install JIS.tbox
+17.12.2020 20:08:55: Processing: 1600_Install KS.tbox
+17.12.2020 20:09:03: Processing: 1600_Install MIL.tbox
+17.12.2020 20:09:08: Processing: 1600_Install SKF.tbox
+17.12.2020 20:09:09: Processing: 1600_Install Torrington Inch.tbox
+17.12.2020 20:09:10: Processing: 1600_Install Torrington Metric.tbox
+17.12.2020 20:09:11: Processing: 1600_Install Truarc.tbox
+17.12.2020 20:09:11: Processing: 1600_Install Unistrut.tbox

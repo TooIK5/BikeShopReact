@@ -1,19 +1,29 @@
 
 
 import {} from 'antd';
-import React from "react";
+import React, {useEffect} from "react";
 import '../../assets/scss/main.scss';
 import {NavLink} from "react-router-dom";
-import { useDispatch } from "react-redux";
-import {setForksFilters} from "../../redux/filtersSlice"
+import { useDispatch, useSelector } from "react-redux";
+import {setForksFilters} from "../../redux/filtersSlice";
+import {getCategories} from "../../redux/API/API";
  
 const Categories = () => {
-   const dispatch = useDispatch();
+    const dispatch = useDispatch();
+        useEffect(() => {
+          dispatch(getCategories());
+      }, [dispatch]);
+       
+    const categories = useSelector( state => state.items.categories);
  
-   const setFilters = (type) => dispatch(setForksFilters(type));
+   //const setFilters = (type) => dispatch(setForksFilters(type));
     
    return <div className="categories-wrapp">
-        <NavLink to="/items"> <div className="categories-item" >Багажники</div></NavLink>
+            
+            {categories ? categories.map((item) => <NavLink to={"/items/" + item.id}> <div className="categories-item">{item.name}</div></NavLink>
+        ) : null}
+        
+        {/* <NavLink to="/items"> <div className="categories-item" >Багажники</div></NavLink>
         <NavLink to="/items"> <div className="categories-item" onClick={setFilters.bind(this, "forks")}>Вилки и амортизаторы</div></NavLink>
         <NavLink to="/items"> <div className="categories-item">Втулки велосипедные</div></NavLink>
         <NavLink to="/items"> <div className="categories-item">Выносы</div></NavLink>
@@ -44,7 +54,7 @@ const Categories = () => {
         <NavLink to="/items"> <div className="categories-item">Шатуны и каретки</div></NavLink>
         <NavLink to="/items"> <div className="categories-item">Шлемы</div></NavLink>
         <NavLink to="/items"> <div className="categories-item">Штыри подседельные и зажимы</div></NavLink>
-        <NavLink to="/items"> <div className="categories-item">Щитки</div></NavLink>
+        <NavLink to="/items"> <div className="categories-item">Щитки</div></NavLink> */}
     </div>
 }
 

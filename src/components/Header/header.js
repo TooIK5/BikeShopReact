@@ -8,8 +8,10 @@ import Registration from "../accountEntrence/reg";
 import {NavLink} from "react-router-dom";
 import {setSearchRequest} from "../../redux/headerSlice"
 import { useSelector, useDispatch } from "react-redux";
+
 const { SubMenu } = Menu;
 const {Search} = Input;
+
 
 let Header = () => {
     const dispatch = useDispatch();
@@ -19,7 +21,12 @@ let Header = () => {
     const sendSearchRequset = (type) => dispatch(setSearchRequest({type, location}));
     const [visible, setVisible] = useState(false);
     const [regvisible, setRegVisible] = useState(false);
-    
+    const user = useSelector(state => state.account.user); 
+
+    const showDrawer = () => {
+      setVisible(true);
+  };
+
     const showRegDrawer = () => {
         setRegVisible(true);
         onClose();
@@ -32,7 +39,7 @@ let Header = () => {
         setRegVisible(false);
     };
       const userProperties = (<Menu >
-        <Menu.Item key="=Объявления"><SnippetsOutlined /> <NavLink to="/account/my_ads">Мои объявления</NavLink></Menu.Item>
+        <Menu.Item key="Объявления"><SnippetsOutlined /> <NavLink to="/account/my_ads">Мои объявления</NavLink></Menu.Item>
         <Menu.Item key="Избранное"><StarOutlined /> <NavLink to="/account/saved_ads">Избранное</NavLink></Menu.Item>
         <Menu.Item key="Настройки"><SettingOutlined /> <NavLink to="/account/settings">Настройки</NavLink></Menu.Item>
         <Menu.Item key=""><ArrowRightOutlined /> Выход</Menu.Item>
@@ -65,7 +72,8 @@ let Header = () => {
             </Button>
         </Drawer>
         <div className="header-img">
-            <NavLink to="/"> <img alt="mainLogo" src="../../assets/img/logo2.jpg"/></NavLink>
+        
+    <NavLink to="/"> <img alt="mainLogo" src="../../assets/img/logo2.jpg"/></NavLink>  
         </div>
         <div className="header-input"> 
             <Search placeholder="введите текст поиска" enterButton="Search" onSearch={sendSearchRequset} />
@@ -82,28 +90,27 @@ let Header = () => {
     </a>
   </Dropdown>
             </div>
-        <div className="header-addBtn">
-            <NavLink to={"/account/addAd"}><Button type="primary">Добавить объявление <ArrowUpOutlined style={{}}/></Button></NavLink>
-        </div>  
-        <div className="header-account">
+            {user ? <div className="header-addBtn"><NavLink to={"/account/addAd"}><Button type="primary">Добавить объявление <ArrowUpOutlined/></Button></NavLink></div> : null } 
+      <div className="header-account" >
           <div className="header-accountData">
             <div  className="header-avatarWrapper">
-            <Badge count={5} size="small"><img src="https://media.istockphoto.com/photos/beautiful-universe-picture-id1358140204" className="header-avatar"/></Badge>
+            <Badge count={user ? 32 : null } size="small" style={{border: "none"}}><img src={user ? null : "../../assets/img/spinfish.gif" } className="header-avatar"/></Badge>
             </div>
-  <div className="header-antlinkWrapper">
-  <Dropdown overlay={userProperties} trigger={["click"]} >
-    <a 
-      onClick={(e) => e.preventDefault()}
-      style={{ color: "black", fontWeight: "bold", margin: "0 0 10px 0" }}
-    >
-      Username <DownOutlined />
-      <br/>
-    </a>
-  </Dropdown>
-  </div>
+            <div className="header-antlinkWrapper">
+            <Dropdown overlay={userProperties} trigger={["click"]} >
+            <a 
+              onClick={(e) => e.preventDefault()}
+              style={{ color: "black", fontWeight: "bold", margin: "0 0 10px 0" }}
+            >
+             {user ? user.username : null}   {user ? <DownOutlined />  : null}
+              <br/>
+            </a>
+            </Dropdown>
           </div>
-            {/* <Button type="dashed" onClick={showDrawer}>Войти</Button> */}
-        </div>
+          </div>
+          </div>
+      
+        {user ?  null : <Button type="dashed" onClick={showDrawer}>Войти</Button> } 
     </header>
 }
 

@@ -12,21 +12,16 @@ import AdContainer from "../adAddPage/adContainer";
 import MyAds from "../account/myAds";
 import AdEdit from "../account/myAdEdit";
 import Settings from "../account/settings";
-import {useDispatch} from "react-redux";
-import { fetchItems } from "../../redux/API/API"
+import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(fetchItems());
-    }, [dispatch])
 
     return <div>
         <HeaderContainer/>
         <div className="app-wrapper">
             <div className="wrapp-allContent">
                 <div className="navBarContainer">
-                    <Route exact path="/items" render={() => <FilterContainer/>}/>
+                    <Route exact path="/items/:categoryId?" render={() => <FilterContainer/>}/>
                 </div>
                 <div className="content">
                     <Route  path="/account/my_ads" render={() => <MyAds/> }/>
@@ -34,7 +29,7 @@ const App = () => {
                     <Route exact path="/" render={() => <Categories/>}/>
                     <Route exact path="/account/settings" render={() => <Settings/>}/>
                     <Route path="/account/addAd" render={() => <AdContainer/>}/>
-                    <Route exact path="/items" render={() => <SellingsItemsContainer/>}/>
+                    <Route exact path="/items/:categoryId?" render={() => <SellingsItemsContainer/>}/>
                     <Route exact path="/item/:id?" render={() => <ItemDetailsContainer/>}/>
                 </div>
                 </div>
