@@ -1,126 +1,78 @@
-import  React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import 'antd/dist/antd.css';
 import '../../../node_modules/antd/dist/antd.css';
+import { useDispatch, useSelector } from "react-redux";
+import { registration } from "../../redux/API/API";
+import { Typography } from 'antd';
+import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
+import  {confPass, pass, mail, name} from "../validators/validators";
+
+const { Text } = Typography;
+
 import {
-    Form,
-    Cascader,
-    Select,
-    Button,
-    Input
-  } from 'antd';
+  Form,
+  Select,
+  Button,
+  Input
+} from 'antd';
 
-
- const { Option } = Select;
-const residences = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
-
+//const { Option } = Select;
+// const residences = [
+//   {
+//     value: 'zhejiang',
+//     label: 'Zhejiang',
+//     children: [
+//       {
+//         value: 'hangzhou',
+//         label: 'Hangzhou',
+//         children: [
+//           {
+//             value: 'xihu',
+//             label: 'West Lake',
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     value: 'jiangsu',
+//     label: 'Jiangsu',
+//     children: [
+//       {
+//         value: 'nanjing',
+//         label: 'Nanjing',
+//         children: [
+//           {
+//             value: 'zhonghuamen',
+//             label: 'Zhong Hua Men',
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ];
 
 
 let Registration = () => {
-    
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
-
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+
+    //dispatch(registration(values));
   };
+  const account = useSelector(state => state.account);
+  // const prefixSelector = (
+  //   <Form.Item name="prefix" noStyle>
+  //     <Select style={{ width: 100 }}>
+  //       <Option value="+375">+375</Option>
+  //     </Select>
+  //   </Form.Item>
+  // );
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 100 }}>
-        <Option value="+375">+375</Option>
-      </Select>
-    </Form.Item>
-  );
+  // const [autoCompleteResult, setAutoCompleteResult] = useState ([]);
 
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
-
-  const [autoCompleteResult, setAutoCompleteResult] = useState ([]);
-
-  const onWebsiteChange = (value) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(['.com', '.org', '.net'].map(domain => `${value}${domain}`));
-    }
-  };
-
-  const websiteOptions = autoCompleteResult.map(website => ({
-    label: website,
-    value: website,
-  }));
-
-
-    return  <Form
-    {...formItemLayout}
+  return <Form
+    
     form={form}
     name="register"
     onFinish={onFinish}
@@ -130,7 +82,7 @@ let Registration = () => {
     }}
     scrollToFirstError
   >
-    <Form.Item
+    {/* <Form.Item
       name="email"
       label="E-mail"
       rules={[
@@ -145,61 +97,88 @@ let Registration = () => {
       ]}
     >
       <Input />
-    </Form.Item>
+    </Form.Item> */}
 
     <Form.Item
-      name="password"
-      label="Password"
+      name="username"
       rules={[
         {
           required: true,
-          message: 'Please input your password!',
+          message: '',
+          whitespace: true,
         },
+        () => ({
+          validator(_, value) {
+           return name(value)
+          },
+        })
+      ]}
+    >
+    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+    </Form.Item>
+    <Form.Item
+      name="email"
+      rules={[
+        {
+          required: true,
+          message: '',
+          whitespace: true,
+        },
+        () => ({
+          validator(_, value) {
+           return mail(value)
+          },
+        })
+      ]}
+    >
+    <Input prefix={<MailOutlined  className="site-form-item-icon" />} placeholder="E-mail" />
+    </Form.Item>
+    <Form.Item
+      name="password"
+      rules={[
+        {
+          required: true,
+          message: '',
+        },
+        () => ({
+          validator(_, value) {
+           return pass(value)
+          },
+        })
       ]}
       hasFeedback
     >
-      <Input.Password />
+      <Input.Password
+        prefix={<LockOutlined className="site-form-item-icon" />}
+        type="password"
+        placeholder="Password"
+      />
     </Form.Item>
 
     <Form.Item
       name="confirm"
-      label="Confirm Password"
       dependencies={['password']}
       hasFeedback
       rules={[
         {
           required: true,
-          message: 'Please confirm your password!',
+          message: 'Пожалуйста, введите пароль!',
         },
         ({ getFieldValue }) => ({
           validator(_, value) {
-            if (!value || getFieldValue('password') === value) {
-              return Promise.resolve();
-            }
-
-            return Promise.reject(new Error('The two passwords that you entered do not match!'));
+           return confPass(value, getFieldValue('password'))
           },
         }),
       ]}
     >
-      <Input.Password />
+      <Input.Password
+        prefix={<LockOutlined className="site-form-item-icon" />}
+        type="password"
+        placeholder="Confirm password"
+      />
     </Form.Item>
 
-    <Form.Item
-      name="nickname"
-      label="Nickname"
-      tooltip="What do you want others to call you?"
-      rules={[
-        {
-          required: true,
-          message: 'Введите ваше имя',
-          whitespace: true,
-        },
-      ]}
-    >
-      <Input />
-    </Form.Item>
-
+    {/* 
     <Form.Item
       name="residence"
       label="Местоположение"
@@ -207,13 +186,13 @@ let Registration = () => {
         {
           type: 'array',
           required: true,
-          message: 'Ведите ваше местоположение',
+          message: 'Введите ваше местоположение',
         },
       ]}
     >
       <Cascader options={residences} />
-    </Form.Item>
-
+    </Form.Item> */}
+    {/* 
     <Form.Item
       name="phone"
       label="Номер телефона"
@@ -246,11 +225,13 @@ let Registration = () => {
         <Option value="female">Женский</Option>
         <Option value="other">Другой</Option>
       </Select>
-    </Form.Item>
+    </Form.Item> */}
 
-    <Form.Item {...tailFormItemLayout}>
-      <Button type="primary" htmlType="submit">
-        Зарегестрироваться
+    <Text type="danger">{account.error}<br /></Text>
+
+    <Form.Item >
+      <Button style={{width: "100%"}} type="primary" htmlType="submit">
+        Зарегистрироваться
       </Button>
     </Form.Item>
   </Form>

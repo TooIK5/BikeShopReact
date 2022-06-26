@@ -1,129 +1,124 @@
 import React from "react";
 import {
-    Typography,
-    Button,
-    InputNumber,
-    Upload,
-    Form,
-    Radio,
-    Input, Cascader
+  Typography,
+  Button,
+  InputNumber,
+  Upload,
+  Form,
+  Radio,
+  Input, Cascader, Breadcrumb
 } from 'antd';
-
+import { NavLink } from "react-router-dom";
 import { UploadOutlined } from '@ant-design/icons';
 import { useSelector } from "react-redux";
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
+let fileList = null;
 
-    const onFinish = (values) => {
-      console.log('Received values of form: ', values);
-    };
+const onFinish = (values) => {
+  values.upload = fileList;
+  console.log('Received values of form: ', values);
+};
 
+const formItemLayout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 10 },
+};
 
-  const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 14 },
-  };
-  
-  const normFile = (e) => {
-    console.log('Upload event:', e.fileList);
-  };
+const normFile = (e) => {
+  fileList = e.fileList;
+  console.log('Upload event:', fileList);
+};
 
 let Ad = () => {
-        const location = useSelector(state => state.app.locations);
-        return   <div className="ad-wrapp">
-            <Title level={2} >Параметры объявления</Title> 
-             
-            <Form
+  const location = useSelector(state => state.app.locations);
+  return <div className="ad-wrapp">
+    <Breadcrumb >
+      <Breadcrumb.Item>
+        <NavLink to="/">Главная</NavLink>
+      </Breadcrumb.Item>
+      <Breadcrumb.Item>Добавить объявление</Breadcrumb.Item>
+    </Breadcrumb>
+    <Title level={2} >Параметры объявления</Title>
+
+    <Form
       name="validate_other"
       {...formItemLayout}
-      onFinish={onFinish}
-     >
-        <Form.Item
+      onFinish={onFinish}>
+      <Form.Item
         name="input"
-        label="Название"
         hasFeedback
-        rules={[{ required: true, message: 'Пожалуйста, введите название!' }]}
-      >
-        <Input placeholder="Выберите вид детали"/>
+        rules={[{ required: true, message: 'Пожалуйста, введите название!' }]}>
+        <Input placeholder="Название" />
       </Form.Item>
-                 <Form.Item name="locationCas"
-                            label="Локация"
-                            rules={[{ required: true, message: 'Пожалуйста, введите локацию!' }]}>
-                     <Cascader
-                         options={location}
-                     />
-                 </Form.Item>
-                 <Form.Item name="Category"
-                            label="Категория"
-                            rules={[{ required: true, message: 'Пожалуйста, введите категорию!' }]}>
-                     <Cascader
-                         options={[
-                             {
-                                 value: 'Вилки',
-                                 label: 'Forks',
-                                 children: [
-                                     {
-                                         value: 'Rigid',
-                                         label: 'Ригидные',
-                                     },
-                                 ],
-                             },
-                         ]}
-                     />
-                 </Form.Item>
+      <Form.Item name="locationCas"
+        rules={[{ required: true, message: 'Пожалуйста, введите локацию!' }]}>
+        <Cascader
+          placeholder="Локация"
+          options={location} />
+      </Form.Item>
+      <Form.Item name="Category"
+        rules={[{ required: true, message: 'Пожалуйста, введите категорию!' }]}>
+        <Cascader
+          placeholder="Категория"
+          options={[
+            {
+              value: 'Вилки',
+              label: 'Forks',
+              children: [
+                {
+                  value: 'Rigid',
+                  label: 'Ригидные',
+                },
+              ],
+            },
+          ]}
+        />
+      </Form.Item>
       <Form.Item
         name="description"
-        label="Описание"
         hasFeedback
-        rules={[{ required: true, message: 'Пожалуйста, введите описание!' }]}
-      >
-        <TextArea placeholder="Описание"/>
+        rules={[{ required: true, message: 'Пожалуйста, введите описание!' }]}>
+        <TextArea style={{ height: "150px" }} placeholder="Описание"  maxLength={250}/>
       </Form.Item>
       <Form.Item
         name="radio-button"
-        label="Состояние"
-        initialValue="used"
-      >
-        <Radio.Group 
-         buttonStyle="solid"
-         >
+        initialValue="used">
+        <Radio.Group
+          buttonStyle="solid">
           <Radio.Button value="used">Б/У</Radio.Button>
           <Radio.Button value="new">Новое</Radio.Button>
-          
+
         </Radio.Group>
       </Form.Item>
       <Form.Item
-       
+
         name="price"
-        label="Цена"
         hasFeedback
-        rules={[{ required: true, message: 'Пожалуйста, введите цену!' }]}
-      >
-        <InputNumber  placeholder="цена в BYN" min={0} max={100000} style={{width: 100}}  />
- 
+        rules={[{ required: true, message: 'Пожалуйста, введите цену!' }]}>
+        <InputNumber placeholder="Стоимость" min={0} max={100000} style={{ width: 100 }} />
+
       </Form.Item>
       <Form.Item
         name="upload"
-        label="Загрузить"
         valuePropName="fileList"
         getValueFromEvent={normFile}
-        extra="Не более 10"
-      >
-        <Upload   maxCount={10}
-                  multiple={true} 
-                  beforeUpload={() => false}
-                  listType="picture">
+        extra="Фото. Не более 5">
+        <Upload maxCount={5}
+          multiple={true}
+          beforeUpload={() => false}
+          listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </Form.Item>
-      <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
+      <Form.Item  >
         <Button type="primary" htmlType="submit">
           Отправить
         </Button>
       </Form.Item>
     </Form>
-        </div>
+  </div>
 }
 
 export default Ad;

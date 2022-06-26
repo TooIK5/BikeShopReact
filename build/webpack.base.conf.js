@@ -31,6 +31,7 @@ module.exports = {
         path: PATHS.dist,
         publicPath: ''
     },
+    
     optimization: {
         splitChunks: {
             cacheGroups: {

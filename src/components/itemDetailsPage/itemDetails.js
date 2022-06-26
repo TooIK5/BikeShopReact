@@ -28,7 +28,7 @@ let ItemDetails = () => {
             boxShadow: "5px 5px 5px -5px rgba(34, 60, 80, 0.6)"
         }}
         preview={{ visible: false }}
-        width="40VW"
+        className="itemDetails__img"
         src="https://ep1.pinkbike.org/p5pb16277644/p5pb16277644.jpg"
         onClick={() => setVisible(true)}
       />
