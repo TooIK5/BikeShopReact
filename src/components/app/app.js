@@ -17,8 +17,8 @@ const App = () => {
     const isHidden = useSelector( state => state.filters.isHidden);
 
     return <div>
+        <HeaderContainer/>
         <div className="app-wrapper">
-        <Header/>
             <div className="wrapp-allContent">
                 <div className={`navBarContainer ${isHidden ? "hideFilter" : "showFilter"}`} >
                     <Route exact path="/items/:categoryId?" render={() => <Filter/>}/>
@@ -39,7 +39,6 @@ const App = () => {
                 <span className="footer__mainTitle">Produced by <a preventDefault target="_blank" href="https://www.linkedin.com/in/levvv/">Leu</a>. Powered by React/Redux Toolkit. 2022</span>
         </footer>
     </div>
-    
 }
 
 export default App;

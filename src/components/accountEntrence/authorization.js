@@ -62,7 +62,7 @@ let Auth = () => {
       <Form.Item
         name="remember"
         valuePropName="checked"
-     
+
       >
         <Checkbox>Remember me</Checkbox>
         <a preventDefault style={{float: "right"}} >Забыл пароль</a>

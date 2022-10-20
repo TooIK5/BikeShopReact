@@ -10,17 +10,17 @@ import {getCategories} from "../../redux/API/API";
  
 const Categories = () => {
     const dispatch = useDispatch();
-    
+
     //     useEffect(() => {
     //       dispatch(getCategories());
     //   }, [dispatch]);
-       
+
    // const categories = useSelector( state => state.items.categories);
  
     const setFilters = (type) => dispatch(setForksFilters(type));
     
    return <div className="categories-wrapp">
-            
+
             {/* {categories ? categories.map((item) => <NavLink to={"/items/" + item.id}> <div className="categories-item">{item.name}</div></NavLink>
         ) : null}
          */}
