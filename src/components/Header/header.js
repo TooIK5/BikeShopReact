@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import 'antd/dist/antd.css';
+import { Button, Drawer, Menu, Dropdown, Input, Badge } from 'antd';
+import { DownOutlined, SnippetsOutlined, StarOutlined, PlusCircleOutlined, SettingOutlined, ArrowRightOutlined, RollbackOutlined } from '@ant-design/icons';
 import { Button, Drawer, Menu, Dropdown, Input, Badge } from 'antd';
 import { DownOutlined, SnippetsOutlined, StarOutlined, PlusCircleOutlined, SettingOutlined, ArrowRightOutlined, RollbackOutlined } from '@ant-design/icons';
 import Auth from "../accountEntrence/authorization";
 import Registration from "../accountEntrence/reg";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Searching from "./search";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Searching from "./search";
@@ -30,6 +36,10 @@ let Header = () => {
       location.reload()
   }
 
+  const showRegDrawer = () => {
+    setRegVisible(true);
+    onClose();
+  };
   const showRegDrawer = () => {
     setRegVisible(true);
     onClose();
@@ -75,8 +85,29 @@ let Header = () => {
                 {user.username} <DownOutlined />
                 <br />
               </a>
+              <a
+                onClick={(e) => e.preventDefault()}
+                style={{ color: "black", fontWeight: "bold", margin: "0 0 10px 0" }}>
+                {user.username} <DownOutlined />
+                <br />
+              </a>
             </Dropdown>
           </div>
+        </div> : null}
+    </div>
+
+    {user ? null : <Button type="dashed" onClick={showDrawer}>Войти</Button>}
+
+    <Drawer width="320" title="Войти" placement="right" onClose={onClose} visible={visible}>
+      <Auth />
+      <Drawer width="320" title="Регистрация" placement="right" onClose={onCloseReg} visible={regvisible}>
+        <Registration />
+      </Drawer>
+      <span block>
+        <a preventDefault onClick={showRegDrawer}>Регистрация</a>
+      </span>
+    </Drawer>
+  </header>
         </div> : null}
     </div>
 

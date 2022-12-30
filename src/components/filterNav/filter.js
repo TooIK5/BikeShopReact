@@ -9,6 +9,7 @@ import { getAll } from "../../redux/API/API";
 import { withRouter } from "react-router-dom";
 
 const { Title } = Typography;
+const { Title } = Typography;
 
 const Filter = React.memo(class Filter extends React.Component {
 
@@ -156,6 +157,7 @@ const Filter = React.memo(class Filter extends React.Component {
           </Radio.Group>
         </Form.Item>
         <Form.Item >
+          <Button type="primary" htmlType="submit" onClick={this.props.setHidden} style={{ width: "100%", marginTop: "15px" }}>Поиск </Button>
           <Button type="primary" htmlType="submit" onClick={this.props.setHidden} style={{ width: "100%", marginTop: "15px" }}>Поиск </Button>
         </Form.Item>
       </Form>

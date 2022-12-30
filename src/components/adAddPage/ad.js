@@ -80,6 +80,8 @@ let Ad = () => {
         hasFeedback
         rules={[{ required: true, message: 'Пожалуйста, введите название!' }]}>
         <Input placeholder="Название" />
+        rules={[{ required: true, message: 'Пожалуйста, введите название!' }]}>
+        <Input placeholder="Название" />
       </Form.Item>
       <Form.Item name="locationid"
         rules={[{ required: true, message: 'Пожалуйста, введите локацию!' }]}>
@@ -111,8 +113,12 @@ let Ad = () => {
       </Form.Item>
       <Form.Item
 
+
         name="price"
         hasFeedback
+        rules={[{ required: true, message: 'Пожалуйста, введите цену!' }]}>
+        <InputNumber placeholder="Стоимость" min={0} max={100000} style={{ width: 100 }} />
+
         rules={[{ required: true, message: 'Пожалуйста, введите цену!' }]}>
         <InputNumber placeholder="Стоимость" min={0} max={100000} style={{ width: 100 }} />
 
@@ -121,6 +127,11 @@ let Ad = () => {
         name="upload"
         valuePropName="fileList"
         getValueFromEvent={normFile}
+        extra="Фото. Не более 5">
+        <Upload maxCount={5}
+          multiple={true}
+          beforeUpload={() => false}
+          listType="picture">
         extra="Фото. Не более 5">
         <Upload maxCount={5}
           multiple={true}
@@ -138,6 +149,7 @@ let Ad = () => {
         </Button>
       </Form.Item>
     </Form>
+  </div>
   </div>
 }
 

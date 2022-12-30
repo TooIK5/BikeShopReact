@@ -3,11 +3,14 @@ import { Button, Form, Input, Checkbox } from 'antd';
 import { logIn } from "../../redux/API/API";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from "react-redux";
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from "react-redux";
 import { Typography } from 'antd';
 
 const { Text } = Typography;
 
 let Auth = () => {
+  const dispatch = useDispatch();
   const dispatch = useDispatch();
 
   const onFinish = (values) => {

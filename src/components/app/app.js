@@ -26,6 +26,8 @@ const App = () => {
         dispatch(auth());
     }, [dispatch]);
 
+    const isHidden = useSelector( state => state.filters.isHidden);
+
     return <div>
         <div className="app-wrapper">
             <Header />

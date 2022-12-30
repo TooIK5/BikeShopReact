@@ -44,7 +44,7 @@ const Categories = () => {
         <NavLink to="/items"> <div className="categories-item">Шатуны и каретки</div></NavLink>
         <NavLink to="/items"> <div className="categories-item">Шлемы</div></NavLink>
         <NavLink to="/items"> <div className="categories-item">Штыри подседельные и зажимы</div></NavLink>
-        <NavLink to="/items"> <div className="categories-item">Щитки</div></NavLink> */}
+        <NavLink to="/items"> <div className="categories-item">Щитки</div></NavLink>
     </div>
 }
 

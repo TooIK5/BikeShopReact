@@ -17,6 +17,8 @@ const { TextArea } = Input;
 const formItemLayout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 10 },
+  labelCol: { span: 8 },
+  wrapperCol: { span: 10 },
 };
 
 const AdEdit = () => {
@@ -226,5 +228,7 @@ const AdEdit = () => {
     </div>
   } else { return <Spin className="spinner" /> }
 }
+
+export default withRouter(AdEdit);
 
 export default withRouter(AdEdit);

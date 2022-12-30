@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import 'antd/dist/antd.css';
 import '../../../node_modules/antd/dist/antd.css';
+import { useDispatch, useSelector } from "react-redux";
+import { registration } from "../../redux/API/API";
 import { useDispatch, useSelector } from "react-redux";
 import { registration } from "../../redux/API/API";
 import { Typography } from 'antd';
@@ -9,13 +12,20 @@ import  {confPass, pass, mail, name, phone} from "../validators/validators";
 
 const { Text } = Typography;
 
+
 import {
   Form,
   Select,
   Button,
   Input
 } from 'antd';
+  Form,
+  Select,
+  Button,
+  Input
+} from 'antd';
 
+//const { Option } = Select;
 //const { Option } = Select;
 // const residences = [
 //   {
@@ -53,6 +63,7 @@ import {
 // ];
 
 
+
 let Registration = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -69,6 +80,10 @@ let Registration = () => {
   //   </Form.Item>
   // );
 
+  // const [autoCompleteResult, setAutoCompleteResult] = useState ([]);
+
+  return <Form
+    
   // const [autoCompleteResult, setAutoCompleteResult] = useState ([]);
 
   return <Form
@@ -95,6 +110,7 @@ let Registration = () => {
     </Form.Item> */}
 
     <Form.Item
+    <Form.Item
       name="username"
       rules={[
         {
@@ -116,6 +132,24 @@ let Registration = () => {
       rules={[
         {
           required: true,
+          message: '',
+          whitespace: true,
+        },
+        () => ({
+          validator(_, value) {
+           return name(value)
+          },
+        })
+      ]}
+    >
+    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+    </Form.Item>
+    <Form.Item
+      name="email"
+      rules={[
+        {
+          required: true,
+          message: '',
           message: '',
           whitespace: true,
         },
@@ -155,7 +189,13 @@ let Registration = () => {
         {
           required: true,
           message: '',
+          message: '',
         },
+        () => ({
+          validator(_, value) {
+           return pass(value)
+          },
+        })
         () => ({
           validator(_, value) {
            return pass(value)
@@ -164,6 +204,11 @@ let Registration = () => {
       ]}
       hasFeedback
     >
+      <Input.Password
+        prefix={<LockOutlined className="site-form-item-icon" />}
+        type="password"
+        placeholder="Password"
+      />
       <Input.Password
         prefix={<LockOutlined className="site-form-item-icon" />}
         type="password"
@@ -183,6 +228,7 @@ let Registration = () => {
         ({ getFieldValue }) => ({
           validator(_, value) {
            return confPass(value, getFieldValue('password'))
+           return confPass(value, getFieldValue('password'))
           },
         }),
       ]}
@@ -192,8 +238,14 @@ let Registration = () => {
         type="password"
         placeholder="Confirm password"
       />
+      <Input.Password
+        prefix={<LockOutlined className="site-form-item-icon" />}
+        type="password"
+        placeholder="Confirm password"
+      />
     </Form.Item>
 
+    {/* 
     {/* 
     <Form.Item
       name="residence"
@@ -208,6 +260,7 @@ let Registration = () => {
     >
       <Cascader options={residences} />
     </Form.Item> */}
+    {/* 
     {/* 
     <Form.Item
       name="phone"
@@ -242,6 +295,11 @@ let Registration = () => {
         <Option value="other">Другой</Option>
       </Select>
     </Form.Item> */}
+
+    <Text type="danger">{account.error}<br /></Text>
+
+    <Form.Item >
+      <Button style={{width: "100%"}} type="primary" htmlType="submit">
 
     <Text type="danger">{account.error}<br /></Text>
 

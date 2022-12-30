@@ -8,7 +8,18 @@ html {
   line-height: $mainLineHeight;
   font-size: $mainFontSize;
   color: $mainFontColor;
+  font-size: $mainFontSize;
+  color: $mainFontColor;
   height: 100%;
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
 
   body {
     margin: 0;
@@ -39,8 +50,15 @@ html {
   width: 100%;
   height: 100%;
 }
+}
 
 .wrapp-allContent {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex-flow: wrap;
+  flex-shrink: inherit;
+  min-height: calc(100vh - 110px);
   display: flex;
   width: 100%;
   flex-direction: column;
