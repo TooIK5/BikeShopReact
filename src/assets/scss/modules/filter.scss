@@ -1,10 +1,47 @@
 .filter {
-    width: 100%;
-    height: auto;
     padding: 5px;  
+}
+
+.filterRadiobtns {
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
+}
+
+.filterRadio__btn {
+    width: 100%;
+    text-align: center;
 }
 
 .ant-form-item-control-input {
     min-height: 0;
 }
  
+.filterInputprice {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.filter__showFilterBtn {
+    display: none;
+}
+
+.filterUpperBlock {
+    display: none;
+    justify-content: space-between;
+}
+
+.filterUpperBlock__closeIcon {
+    font-size: 14px;
+}
+
+.hideFilter {
+    left: -250px !important;
+    transition: left .5s;
+}
+
+.showFilter {
+    left: 0 !important;
+    transition: left .5s;
+}

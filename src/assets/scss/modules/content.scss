@@ -1,8 +1,21 @@
-
 .content {
-    padding: .5% .5% 0 .5%;
-    width: 80%;
-    height: auto;
-   }
+  padding: 5px 10px 0 10px !important;
+  width: calc(100% - 250px);
+  height: 100%;
 
-  
+  .items-controllersBlock {
+    padding-bottom: 10px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sellingsItems__item {
+    
+  }
+
+  .sellingsItems__pagination {
+    height: auto;
+    padding-top: 10px;
+  }
+}

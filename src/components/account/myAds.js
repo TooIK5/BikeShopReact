@@ -1,34 +1,67 @@
-import React from "react";
-import { FileOutlined,FileSyncOutlined,FileSearchOutlined,FileExcelOutlined,EyeInvisibleOutlined } from '@ant-design/icons';    
+import React, { useEffect, useState } from "react";
+import { FileOutlined, FileSearchOutlined, FileExcelOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from "react-redux";
-import { Radio } from 'antd';
+import { NavLink } from "react-router-dom";
+import { Radio, Breadcrumb } from 'antd';
 import AdItem from "./myAdItem";
-import {setCurrentAds} from "../../redux/accountSlice"
+import { getMyAds } from "../../redux/API/API";
 
 const MyAds = () => {
-    const dispatch = useDispatch();
-    const setAds = (type) => dispatch(setCurrentAds(type));
+  const dispatch = useDispatch();
+  let [page, setpage] = useState(true)
+  let ads = useSelector(state => state.account.ads);
+  let id = useSelector(state => {
+  return  state.account.user ? state.account.user.id : null;
+  });
 
-    const ads = useSelector(state => state.account.currentAds)
+  useEffect(() => {
+      dispatch(getMyAds(id));
+  }, [id]);
 
-    
-    return  <div className="ads">
-            <div className="myAds-adsWrapper">
-            <div className="myAds-list">
-          <Radio.Group defaultValue={"active"}> 
-          <Radio.Button className="myAds-listItem" onClick={setAds.bind(this, "active")} value="active">Активные<FileOutlined /></Radio.Button>
-          <Radio.Button className="myAds-listItem" onClick={setAds.bind(this, "pending")} value="pending">В ожидании <FileSyncOutlined /></Radio.Button>
-          <Radio.Button className="myAds-listItem" onClick={setAds.bind(this, "moderation")} value="moderation">На модерации <FileSearchOutlined /></Radio.Button>
-          <Radio.Button className="myAds-listItem" onClick={setAds.bind(this, "rejected")} value="rejected">Отказ <FileExcelOutlined /></Radio.Button>
-          <Radio.Button className="myAds-listItem" onClick={setAds.bind(this, "deactiveted")} value="deactiveted">Деактивированные <EyeInvisibleOutlined /></Radio.Button>
+  let showActive = () => {
+    setpage(true)
+  }
+
+  let showModerate = () => {
+    setpage(false)
+  }
+
+  let currAds = useSelector(state => state.account.ads);
+
+  if (ads) {
+    return <div className="ads">
+      <div className="itemDetails-breadCramb">
+        <Breadcrumb >
+          <Breadcrumb.Item>
+            <NavLink to="/">Главная</NavLink>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <NavLink to="/account/my_ads">Мои объявления</NavLink>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+      </div>
+      <div className="myAds-adsWrapper">
+        <div className="myAds-list">
+          <Radio.Group defaultValue={"active"}>
+            <Radio.Button className="myAds-listItem" onClick={showActive} value="active">Активные<FileOutlined /></Radio.Button>
+            <Radio.Button className="myAds-listItem" onClick={showModerate} value="moderation">На модерации <FileSearchOutlined /></Radio.Button>
           </Radio.Group>
-            </div>
-            <div className="myAds-items">
-              {ads.map(ad =>  <AdItem key={ad.id} {...ad} />
-        )}  
-            </div> 
         </div>
+        <div className="myAds-items">
+          {currAds.map(ad => {
+            if (page === true && ad.published) {
+              return <AdItem key={ad.id} {...ad} />
+            }
+            
+            if (page === false && !ad.published) {
+              return <AdItem key={ad.id} {...ad} />
+            }
+          }
+          )}
+        </div>
+      </div>
     </div>
+  } else { return <div></div> }
 }
 
 export default MyAds;

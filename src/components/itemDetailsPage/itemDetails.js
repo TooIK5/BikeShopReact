@@ -1,79 +1,125 @@
-import React from "react";
-import {  Typography, Button, Image } from 'antd';
-import {  AimOutlined } from '@ant-design/icons';
-const { Title, Text } = Typography;
-import {  useState } from "react";
-import { Breadcrumb } from 'antd';
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
- 
-let ItemDetails = () => {
+import React, { useEffect, useState } from "react";
+import { Typography, Button, Image, Spin, Breadcrumb } from 'antd';
+import { AimOutlined } from '@ant-design/icons';
+import { useParams, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { findOption } from "../COMMON/findOption";
+import { addChat, getOne } from "../../redux/API/API";
+import { useHistory } from "react-router-dom";
 
-    const [visible, setVisible] = useState(false);
+const { Title, Text } = Typography;
+
+let ItemDetails = () => {
+  let dispatch = useDispatch();
+  let history = useHistory();
+  const [visible, setVisible] = useState(false);
+  const { id } = useParams();
+  const uid = useSelector(state => state.account.user.id);
+
+  useEffect(() => {
+    dispatch(getOne(id))
+  }, [dispatch]);
+
+  const locations = useSelector(state => state.locations.locations);
+  const tid = useSelector(state => state.items.currentType);
+  let location;
+
+  const ad = useSelector(state => {
+    let res = null;
+    if (state.items.items) {
+      for (let i = 0; i < state.items.items.length; i++) {
+        if (state.items.items[i].id === +id) {
+          res = state.items.items[i];
+        }
+      }
+    }
+
+    if (state.items.likedAds) {
+      if (!res) {
+        for (let i = 0; i < state.items.likedAds.length; i++) {
+          if (state.items.likedAds[i].id === +id) {
+            res = state.items.likedAds[i];
+          }
+        }
+      }
+    }
+    return res;
+  });
+
+  const routeToDialogs = () => {
+    dispatch(addChat({user1: uid, user2: ad.userid}))
+    history.replace("/dialogs")
+  }
+
+  if (locations && ad) {
+    location = findOption(locations, ad.locationid);
+  }
+
+  if (ad) {
     return <div className="itemDetails">
-        <div className="itemDetails-carousel" >
-        <div className="itemDetails-breadCramb">
-      <Breadcrumb >
-      <Breadcrumb.Item>
-      <NavLink to="/">Главная</NavLink>
-    </Breadcrumb.Item>
-    <Breadcrumb.Item>
-      <NavLink to="/items">Товары</NavLink>
-    </Breadcrumb.Item>
-    <Breadcrumb.Item>Объявление</Breadcrumb.Item>
-      </Breadcrumb>
-        </div> 
-        <Image
-        style={{
-            borderRadius: "5px",
-            boxShadow: "5px 5px 5px -5px rgba(34, 60, 80, 0.6)"
-        }}
-        preview={{ visible: false }}
-        width="40VW"
-        src="https://ep1.pinkbike.org/p5pb16277644/p5pb16277644.jpg"
-        onClick={() => setVisible(true)}
-      />
-      <div style={{ display: 'none' }}>
-        <Image.PreviewGroup preview={{ visible, onVisibleChange: vis => setVisible(vis) }}>
-          <Image src="https://ep1.pinkbike.org/p5pb16277644/p5pb16277644.jpg" />
-          <Image src="https://gw.alipayobjects.com/zos/antfincdn/cV16ZqzMjW/photo-1473091540282-9b846e7965e3.webp" />
-          <Image src="https://gw.alipayobjects.com/zos/antfincdn/x43I27A55%26/photo-1438109491414-7198515b166b.webp" />
-        </Image.PreviewGroup>
+      <div className="itemDetails-breadCramb">
+        <Breadcrumb >
+          <Breadcrumb.Item>
+            <NavLink to="/">Главная</NavLink>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <NavLink to={"/items/" + tid}>Товары</NavLink>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>Объявление</Breadcrumb.Item>
+        </Breadcrumb>
       </div>
-            <Title level={4} >Характеристики</Title>   
-            <div className="itemDetails-parameters">
-                <div><Text >Тип: </Text></div>
-                <div className='itemDetails-underline'></div>
-                <div className="itemDetails-parameter"><Text >Втулка </Text></div>
-            </div> 
-            <div className="itemDetails-parameters">
-                <div><Text >Состояние: </Text></div>
-                <div className='itemDetails-underline'></div>
-                <div className="itemDetails-parameter"><Text >Б/У </Text></div>
-            </div> 
-     </div>
-     <div className="itemDetails-info">
-     <Title level={3} >Втулка задняя   </Title>
-        <Text strong >10 р.</Text>
-        <br/>
-        <Text >Г. Минск, Советский район <AimOutlined style={{
-      
-        }} /></Text>
-        <br/>
-        <Text type="secondary"       >22.10.2021, 13:45</Text>
-        <Title level={4} >Описание   </Title>
-        <Text  > Пять столетий спустя Lorem Ipsum испытал всплеск популярности с выпуском сухого переноса листов Letraset в.
-         Эти листы надписи можно потереть на любом месте и были быстро приняты художники-графики, принтеры, архитекторов и рекламодателей для их профессионального вида и простоты использования.
-          Letraset включены Lorem Ipsum проходы в арсеналом шрифтов, стилей и размеров, затвердевание место Латинского-эск фразу целиком в печатной и графической индустрии.
-           Те, с вниманием к деталям будет даже поймали дань классического текста в эпизоде Mad Men (S6E1 вокруг 1:18:55 для тех, кто не сделал).</Text>
-        <br/>
-        <br/>
-        <a href="+375(29)5532989">+375(29)5532989</a>
-        <br/>
-        <br/>
-        <Button type="primary" disabled>Написать</Button>
-        
-     </div>
+      <div className="itemDetails__block">
+        <div className="itemDetails-carousel" >
+          <Image
+            preview={{ visible: false }}
+            className="itemDetails__img"
+            src={"http://localhost:5000/" + ad.photo[0]}
+            onClick={() => setVisible(true)} />
+
+          <div style={{ display: 'none' }}>
+            <Image.PreviewGroup preview={{ visible, onVisibleChange: vis => setVisible(vis) }}>
+              {
+                ad.photo.map((k, i) => {
+                  return <Image key={i} src={"http://localhost:5000/" + ad.photo[i]} />
+                })
+              }
+            </Image.PreviewGroup>
+          </div>
+          {/* <Title level={4} >Характеристики</Title>
+      <div className="itemDetails-parameters">
+        <div><Text >Тип: </Text></div>
+        <div className='itemDetails-underline'></div>
+        <div className="itemDetails-parameter"><Text >Втулка </Text></div>
+      </div>
+      <div className="itemDetails-parameters">
+        <div><Text >Состояние: </Text></div>
+        <div className='itemDetails-underline'></div>
+        <div className="itemDetails-parameter"><Text >Б/У </Text></div>
+      </div> */}
+        </div>
+        <div className="itemDetails-info">
+          <Title level={3} >{ad.title}</Title>
+          <Text strong >{ad.price}</Text>
+          <br />
+          <Text >{location}<AimOutlined style={{
+          }} /></Text>
+          <br />
+          <Text type="secondary">{ad.createdAt.substring(0, 10) + " " + ad.createdAt.substring(12, 16)}</Text>
+          <Title level={4} >Описание</Title>
+          <Text  >{ad.description}</Text>
+          <br />
+          <br />
+          <a >{ad.phone}</a>
+          <br />
+          <br />
+          <Button type="primary" onClick={routeToDialogs}>Написать</Button>
+        </div>
+      </div>
+
     </div>
+  } else {
+    return <Spin className="spinner" />
+  }
 }
 
 export default ItemDetails;

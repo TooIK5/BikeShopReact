@@ -6,16 +6,39 @@
 
 module.exports = {
   plugins: [
-    require('autoprefixer'),
-    require('css-mqpacker'),
-    require('cssnano')({
-      preset: [
-        'default', {
-          discardComments: {
-            removeAll: true
+      require('autoprefixer'),
+      require('css-mqpacker'),
+      require('cssnano')({
+        preset: [
+          'default', {
+            discardComments: {
+              removeAll: true
+            }
           }
-        }
-      ]
-    })
-  ]
+        ]
+      })
+    ]
 };
+
+// plugins: [
+//   require('autoprefixer'),
+//   require('css-mqpacker'),
+//   require('cssnano')({
+//     preset: [
+//       'default', {
+//         discardComments: {
+//           removeAll: true
+//         }
+//       }
+//     ]
+//   })
+// ]
+
+// plugins: {
+//   map: false,
+//   plugins: {
+//     'autoprefixer': {},
+//     'css-mqpacker': {},
+//     'cssnano': {}
+//   }
+// }

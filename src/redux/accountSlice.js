@@ -1,93 +1,22 @@
- import { createSlice } from "@reduxjs/toolkit";
- import { registration } from "./API/API";
- import { logIn } from "./API/API";
+import { createSlice } from "@reduxjs/toolkit";
+import { registration, logIn, auth, update, getMyAds, deleteItem } from "./API/API";
 
 const accountSlice = createSlice({
     name: 'account',
     initialState: {
-        user: true,
-        ads: {
-        active: [{
-            id: 1,
-            title: "Втулка",
-            category:  ["Вилки", "ригидная"],
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            condition: "used",
-            location: ["Минск", "Советский"],
-            dataTime: "24.01.2022, 13:32",
-            photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJC_6HeqaY7tq6z19ewtdEvRUvxplb3zwBVQ&usqp=CAU",
-            isLiked: true,
-            phoneNumber: "+375336693046",
-            price: 400
-        },
-        {
-            id: 2,
-            title: "Колесо",
-            category:  ["Колеса", "26"],
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            condition: "used",
-            location: ["Минск", "Советский"],
-            dataTime: "24.01.2022, 13:32",
-            phoneNumber: "+375336693046",
-            photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJC_6HeqaY7tq6z19ewtdEvRUvxplb3zwBVQ&usqp=CAU",
-            isLiked: true,
-            price: 400
-        }],  
-        moderation:  [{id: 4,
-            title: "Вилка",
-            phoneNumber: "+375336693046",
-            category:  ["Вилки", "ригидная"],
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            condition: "new",
-            location:  ["Минск", "Советский"],
-            dataTime: "24.01.2022, 13:32",
-            photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1LiY8xXGvrbIVKAG7X39xhSYb8wLtobZ0Yg&usqp=CAU",
-            isLiked: true,
-            price: 300
-        }],
-        rejected: [],
-        deactiveted: []
+        user: null,
+        updateError: null,
+        derror: null,
+        dstatus: "danger",
+        ads: [],
+        currentAds: [],
+        editAd: {}
     },
-    currentAds:  [{
-        id: 1,
-        title: "Втулка",
-        category: ["Вилки", "ригидная"],
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        condition: "used",
-        location:  ["Минск", "Центральный"],
-        dataTime: "24.01.2022, 13:32",
-        phoneNumber: "+375336693046",
-        photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJC_6HeqaY7tq6z19ewtdEvRUvxplb3zwBVQ&usqp=CAU",
-        isLiked: true,
-        price: 400
-    },
-    {
-        id: 2,
-        title: "Колесо",
-        category:  ["Вилки", "ригидная"],
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        condition: "used",
-        phoneNumber: "+375336693046",
-        location:  ["Минск", "Советский"],
-        dataTime: "24.01.2022, 13:32",
-        photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJC_6HeqaY7tq6z19ewtdEvRUvxplb3zwBVQ&usqp=CAU",
-        isLiked: true,
-        price: 400
-    }],
-    editAd: {}
-},
+
     reducers: {
-        setCurrentAds(state, action) {
-            state.currentAds = [...state.ads[action.payload]];
-        },
-        setEditAd (state, action) {
-            let id = Number.parseInt(action.payload);
-            state.currentAds.forEach(elem => {
-                if (elem.id === id) {
-                    state.editAd = {...elem}}
-              })
-        }
+        
     },
+
     extraReducers: {
         [registration.pending]: (state) => {
             state.status = 'loading';
@@ -95,7 +24,9 @@ const accountSlice = createSlice({
         },
         [registration.fulfilled]: (state, action) => {
             state.status = "resolved";
-            state.user = action.payload;
+            state.user = action.payload.user;
+            localStorage.setItem('token', action.payload.token);
+            location.reload();
         },
         [registration.rejected]: (state, action) => {
             state.status = "rejected";
@@ -107,14 +38,53 @@ const accountSlice = createSlice({
         },
         [logIn.fulfilled]: (state, action) => {
             state.status = "resolved";
-            state.authData = action.payload;
+            state.user = action.payload.user;
+            if (JSON.parse(localStorage.getItem("rememberMe"))) {
+                localStorage.setItem('token', action.payload.token);
+            } else {
+                localStorage.setItem('token', null);
+                sessionStorage.setItem("token", action.payload.token)
+            }
+            location.reload();
         },
         [logIn.rejected]: (state, action) => {
             state.status = "rejected";
             state.error = action.payload;
-        }
+        },
+        [auth.fulfilled]: (state, action) => {
+            state.status = "resolved";
+            state.user = action.payload.user;
+        },
+        [update.rejected]: (state, action) => {
+            state.status = "rejected";
+            state.updateError = action.payload;
+        },
+        [update.fulfilled]: (state, action) => {
+            state.status = "resolved";
+            state.user = action.payload;
+            state.updateError = null;
+        },
+        [getMyAds.fulfilled]: (state, action) => {
+            state.status = "resolved";
+            state.ads = action.payload;
+        },
+        [deleteItem.rejected]: (state, action) => {
+            state.derror = action.payload;
+        },
+        [deleteItem.pending]: (state, action) => {
+            state.dstatus = "loading";
+        },
+        [deleteItem.fulfilled]: (state, action) => {
+            state.dstatus = "danger";
+            let id = +action.payload.id;
+            state.ads.forEach((e, i) => {
+                if (e.id === id) {
+                    state.ads.splice(i, 1);
+                }
+            });
+        },
     }
 });
 
-export const {setCurrentAds, setEditAd} = accountSlice.actions;
+export const { setCurrentAds, setEditAd } = accountSlice.actions;
 export default accountSlice.reducer;

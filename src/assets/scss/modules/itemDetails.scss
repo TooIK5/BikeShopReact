@@ -2,7 +2,20 @@
     width: 100%;
     height: auto;
     display: flex;
+    flex-direction: column;
+}
+
+.itemDetails__block {
+    display: flex;
     flex-direction: row;
+}
+
+.itemDetails__img {
+    min-width: 30vw !important;
+    height: 400px;
+    min-height: 200px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.6) 
 }
 
 .itemDetails-breadCramb {
@@ -10,7 +23,9 @@
 }
 
 .itemDetails-info {
-h3 {padding-top: 20px;}
+h3 {
+    padding-top: 20px;
+}
 font-size: 14px;
 padding: 5px 5px 5px 10px;
 color: "#fffffa"
@@ -18,11 +33,13 @@ color: "#fffffa"
 
 .itemDetails-carousel {
     width: auto;
-    height: auto;
+    height: 400px;
+    position: relative;
 }
 
 .itemDetails-carouselPhoto {
     border-radius: 5px;
+    box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.6) 
 }
 
 .itemDetails-parameters {

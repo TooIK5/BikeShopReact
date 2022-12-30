@@ -1,117 +1,97 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import 'antd/dist/antd.css';
-import '../../../node_modules/antd/dist/antd.css';
-import {Button, Drawer, Menu, Dropdown, Input, Badge} from 'antd';
-import {AimOutlined, DownOutlined, SnippetsOutlined,StarOutlined,SettingOutlined,ArrowRightOutlined, ArrowUpOutlined} from '@ant-design/icons';
+import { Button, Drawer, Menu, Dropdown, Input, Badge } from 'antd';
+import { DownOutlined, SnippetsOutlined, StarOutlined, PlusCircleOutlined, SettingOutlined, ArrowRightOutlined, RollbackOutlined } from '@ant-design/icons';
 import Auth from "../accountEntrence/authorization";
 import Registration from "../accountEntrence/reg";
-import {NavLink} from "react-router-dom";
-import {setSearchRequest} from "../../redux/headerSlice"
-import { useSelector, useDispatch } from "react-redux";
-
-const { SubMenu } = Menu;
-const {Search} = Input;
-
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Searching from "./search";
 
 let Header = () => {
-    const dispatch = useDispatch();
-    const searchParams = useSelector(state => state.header.searchParameters);
-    const [location, setLocation] = useState("Беларусь");
-    const handleClick = ({key}) => {setLocation(key)};
-    const sendSearchRequset = (type) => dispatch(setSearchRequest({type, location}));
-    const [visible, setVisible] = useState(false);
-    const [regvisible, setRegVisible] = useState(false);
-    const user = useSelector(state => state.account.user); 
 
-    const showDrawer = () => {
-      setVisible(true);
+  const [visible, setVisible] = useState(false);
+  const [regvisible, setRegVisible] = useState(false);
+
+  let user = useSelector(state => state.account.user)
+  useEffect(() => {
+    if (user) {
+      setVisible(false)
+    }
+  })
+  const showDrawer = () => {
+    setVisible(true);
   };
 
-    const showRegDrawer = () => {
-        setRegVisible(true);
-        onClose();
-    };
+  const logout = () => {
+      localStorage.setItem("token", null),
+      localStorage.setItem("rememberMe", false)
+      sessionStorage.setItem("token", null)
+      location.reload()
+  }
 
-    const onClose = () => {
-        setVisible(false);
-    };
-    const onCloseReg = () => {
-        setRegVisible(false);
-    };
-      const userProperties = (<Menu >
-        <Menu.Item key="Объявления"><SnippetsOutlined /> <NavLink to="/account/my_ads">Мои объявления</NavLink></Menu.Item>
-        <Menu.Item key="Избранное"><StarOutlined /> <NavLink to="/account/saved_ads">Избранное</NavLink></Menu.Item>
-        <Menu.Item key="Настройки"><SettingOutlined /> <NavLink to="/account/settings">Настройки</NavLink></Menu.Item>
-        <Menu.Item key=""><ArrowRightOutlined /> Выход</Menu.Item>
-        </Menu>)
-      const menu = (
-        <Menu onClick={handleClick}>
-        <SubMenu key="Minsk region" title="Минская область">
-        <Menu.Item key="Борисов">Борисов</Menu.Item>
-        <Menu.Item key="Молодечно">Молодечно</Menu.Item>
- 
-      {/* <Menu.ItemGroup title="Item 2">
-        <Menu.Item key="3">Option 3</Menu.Item>
-        <Menu.Item key="4">Option 4</Menu.Item>
-      </Menu.ItemGroup> */}
-        </SubMenu>
-          <Menu.Item key="Newest">Newest</Menu.Item>
-          <Menu.Item key="Lowest Price">Lowest Price</Menu.Item>
-          <Menu.Item key="Highest Price">Highest Price</Menu.Item>
-        </Menu>
-      );
+  const showRegDrawer = () => {
+    setRegVisible(true);
+    onClose();
+  };
 
-    return <header className="header">
-        <Drawer width="550" title="Войти" placement="right" onClose={onClose} visible={visible}>
-              <Auth/>
-            <Drawer width="550" title="Регистрация" placement="right" onClose={onCloseReg} visible={regvisible}>
-            <Registration/>
-            </Drawer>
-            <Button onClick={showRegDrawer} type="primary" block>
-                Регистрация
-            </Button>
-        </Drawer>
-        <div className="header-img">
-        
-    <NavLink to="/"> <img alt="mainLogo" src="../../assets/img/logo2.jpg"/></NavLink>  
-        </div>
-        <div className="header-input"> 
-            <Search placeholder="введите текст поиска" enterButton="Search" onSearch={sendSearchRequset} />
-        </div>
-        <div className="header-location">
-       
-  <Dropdown overlay={menu} trigger={["click"]}>
-    <a
-      className="ant-dropdown-link"
-      onClick={(e) => e.preventDefault()}
-      style={{ color: "black", fontWeight: "bold" }}
-    >
-      {location} <AimOutlined />
-    </a>
-  </Dropdown>
-            </div>
-            {user ? <div className="header-addBtn"><NavLink to={"/account/addAd"}><Button type="primary">Добавить объявление <ArrowUpOutlined/></Button></NavLink></div> : null } 
-      <div className="header-account" >
-          <div className="header-accountData">
-            <div  className="header-avatarWrapper">
-            <Badge count={user ? 32 : null } size="small" style={{border: "none"}}><img src={user ? null : "../../assets/img/spinfish.gif" } className="header-avatar"/></Badge>
-            </div>
-            <div className="header-antlinkWrapper">
+  const onClose = () => {
+    setVisible(false);
+  };
+
+  const onCloseReg = () => {
+    setRegVisible(false);
+  };
+
+  const userProperties = (<Menu >
+    <Menu.Item key="1"><RollbackOutlined /> <NavLink to="/">Главная</NavLink></Menu.Item>
+    <Menu.Item key="2"><SnippetsOutlined /> <NavLink to="/account/my_ads">Мои объявления</NavLink></Menu.Item>
+    <Menu.Item key="3"><StarOutlined /> <NavLink to="/account/saved_ads">Избранное</NavLink></Menu.Item>
+    <Menu.Item key="4"><SettingOutlined /> <NavLink to="/account/settings">Настройки</NavLink></Menu.Item>
+    <Menu.Item key="5" onClick={logout}><ArrowRightOutlined /> Выход</Menu.Item>
+  </Menu>)
+
+  return <header className="header">
+
+    <div className="header__img">
+      <NavLink to="/"><img alt="mainLogo" src="../../assets/img/logo2.jpg" /></NavLink>
+    </div>
+
+    <div className="headerSearchbox"><Searching /></div>
+
+    <div className="header-account" >
+      {user ? <NavLink to={"/account/addAd"}><PlusCircleOutlined size="large" /></NavLink> : null}
+
+      {user ?
+        <div className="header-accountData">
+          <div className="header-avatarWrapper">
+            <Badge count={null} size="small" style={{ border: "none" }}><img src={user.avatar ? "http://localhost:5000/" + user.avatar : "../../assets/img/undefindUser.jpg"} className="header-avatar" /></Badge>
+          </div>
+          <div className="header__dropper">
             <Dropdown overlay={userProperties} trigger={["click"]} >
-            <a 
-              onClick={(e) => e.preventDefault()}
-              style={{ color: "black", fontWeight: "bold", margin: "0 0 10px 0" }}
-            >
-             {user ? user.username : null}   {user ? <DownOutlined />  : null}
-              <br/>
-            </a>
+              <a
+                onClick={(e) => e.preventDefault()}
+                style={{ color: "black", fontWeight: "bold", margin: "0 0 10px 0" }}>
+                {user.username} <DownOutlined />
+                <br />
+              </a>
             </Dropdown>
           </div>
-          </div>
-          </div>
-      
-        {user ?  null : <Button type="dashed" onClick={showDrawer}>Войти</Button> } 
-    </header>
+        </div> : null}
+    </div>
+
+    {user ? null : <Button type="dashed" onClick={showDrawer}>Войти</Button>}
+
+    <Drawer width="320" title="Войти" placement="right" onClose={onClose} visible={visible}>
+      <Auth />
+      <Drawer width="320" title="Регистрация" placement="right" onClose={onCloseReg} visible={regvisible}>
+        <Registration />
+      </Drawer>
+      <span block>
+        <a preventDefault onClick={showRegDrawer}>Регистрация</a>
+      </span>
+    </Drawer>
+  </header>
 }
 
 export default Header;

@@ -31,6 +31,7 @@ module.exports = {
         path: PATHS.dist,
         publicPath: ''
     },
+    
     optimization: {
         splitChunks: {
             cacheGroups: {
@@ -72,7 +73,7 @@ module.exports = {
                         options: {sourceMap: true}
                     }, {
                         loader: 'postcss-loader',
-                        options: {sourceMap: true, config: {path: `./postcss.config.js`}}
+                        options: {sourceMap: true, postcssOptions: {path: `./postcss.config.js`}}
                     }, {
                         loader: 'sass-loader',
                         options: {sourceMap: true}
@@ -88,7 +89,7 @@ module.exports = {
                         options: {sourceMap: true}
                     }, {
                         loader: 'postcss-loader',
-                        options: {sourceMap: true, config: {path: `./postcss.config.js`}}
+                        options: {sourceMap: true, postcssOptions: {path: `./postcss.config.js`}}
                     }
                 ]
             }]

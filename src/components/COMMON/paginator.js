@@ -1,53 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pagination } from 'antd';
-import {useSelector} from "react-redux";
-import {setCurrentPage} from "../../redux/itemsSlice";
-import {useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getAll, searchItem, getAllForAdmin } from "../../redux/API/API";
+import { setCurrent } from "../../redux/filtersSlice"
+ 
 
-let Paginator = () => {
-    const currentPage = useSelector( state => state.items.currentPage);
-   
+let Paginator = (props) => {
+
+    let lastreq = useSelector(state => state.filters.lastreq);
+    let curr = useSelector(state => state.filters.currentPage);
+    let lastSearch = useSelector(state => state.filters.lastSearch);
+    let total = useSelector(state => state.items.count);
+    let copy = { ...lastreq };
+    let lastSearchCopy = { ...lastSearch };
     const dispatch = useDispatch();
-    const setPage = (current) => dispatch(setCurrentPage(current));
-     
-    return   <Pagination onChange={setPage} style={{paddingBottom: "20px"}} total={50} /> 
 
-   /* let pagesCount = Math.ceil(totalItemsCount / pageSize);
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
-
-    let portionCount = Math.ceil(pagesCount / portionSize);
-    let [portionNumber, setPortionNumber] = useState(1);
-    let rightPortionPageNumber = portionNumber * portionSize + 1;
-    let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
-
-    return <div className="usersWrapper">
-        <div className="users-Btns">
-            {portionNumber > 1 &&
-            <button onClick={() => {
-                setPortionNumber(portionNumber - 1)
-            }}>
-                before </button>
-            }
-
-            {pages
-                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-                .map(p => {
-                    return <button className={currentPage === p ? 'users-Page--active' : null}
-                                   onClick={() => {
-                                       onPageChanged(p)
-                                   }}>{p}</button>
-                })
-            }
-            {portionCount > portionNumber &&
-            <button onClick={() => {
-                setPortionNumber(portionNumber + 1)
-            }}> >> </button>}
-        </div>
-    </div>;*/
-
+    const setPage = (current) => {
+        if (props.props === "search") {
+            lastSearchCopy.page = current;
+            dispatch(setCurrent(current))
+            dispatch(searchItem(lastSearchCopy));
+        } else if (props.props === "admin") {
+            dispatch(getAllForAdmin({page: current}))
+            dispatch(setCurrent(current))
+        } else {
+            copy.page = current;
+            dispatch(setCurrent(current))
+            dispatch(getAll(copy))
+        }
+    };
+    return <Pagination onChange={setPage} current={curr} style={{ paddingBottom: "10px" }} total={total} />
 };
 
 export default Paginator;

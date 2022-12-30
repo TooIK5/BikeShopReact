@@ -1,30 +1,20 @@
 
-
-import {} from 'antd';
-import React, {useEffect} from "react";
+import React from "react";
 import '../../assets/scss/main.scss';
-import {NavLink} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import {setForksFilters} from "../../redux/filtersSlice";
-import {getCategories} from "../../redux/API/API";
- 
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const Categories = () => {
-    const dispatch = useDispatch();
-        useEffect(() => {
-          dispatch(getCategories());
-      }, [dispatch]);
-       
-    const categories = useSelector( state => state.items.categories);
- 
-   //const setFilters = (type) => dispatch(setForksFilters(type));
-    
-   return <div className="categories-wrapp">
-            
-            {categories ? categories.map((item) => <NavLink to={"/items/" + item.id}> <div className="categories-item">{item.name}</div></NavLink>
+
+    const types = useSelector(state => state.types.types);
+
+    return <div className="categories-wrapp">
+
+        {types ? types.map((item) => <NavLink to={"/items/" + item.value}> <div className="categories-item">{item.label}</div></NavLink>
         ) : null}
-        
-        {/* <NavLink to="/items"> <div className="categories-item" >Багажники</div></NavLink>
-        <NavLink to="/items"> <div className="categories-item" onClick={setFilters.bind(this, "forks")}>Вилки и амортизаторы</div></NavLink>
+
+        {/* <NavLink to="/items/1"> <div className="categories-item" >Багажники</div></NavLink>
+        <NavLink to="/items/2"> <div className="categories-item" onClick={setFilters.bind(this, "forks")}>Вилки и амортизаторы</div></NavLink>
         <NavLink to="/items"> <div className="categories-item">Втулки велосипедные</div></NavLink>
         <NavLink to="/items"> <div className="categories-item">Выносы</div></NavLink>
         <NavLink to="/items"> <div className="categories-item">Замки</div></NavLink>

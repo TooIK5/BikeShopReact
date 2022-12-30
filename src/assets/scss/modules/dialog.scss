@@ -1,0 +1,70 @@
+.dialog__windows {
+    width: 50%;
+    height: 380px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.dialog__window {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    padding-top: 10px;
+    background: rgb(244, 252, 255);
+}
+
+.chat {
+    background:#f8f8f8;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.dialog__chatBar {
+    padding-right: 5px;
+    overflow-y: scroll;
+}
+
+.dialog__name {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dialog__message {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+   
+    border-radius: 5px;
+}
+
+.dialog__text {
+    font-size: 12px;
+}
+
+.dialog__textBlock {
+    padding-left: 5px;
+}
+
+.chat__text {
+    font-size: 12px;
+    line-height: 1em;
+}
+
+.dialog__date {
+    font-size: 12px;
+    color: rgb(179, 179, 179);
+    padding-left: 5px;
+}
+
+.dialog__img {
+    padding-left: 5px;
+    display: flex;
+    align-items: center;
+
+    img {
+        width: 30px;
+        border-radius: 15px;
+        height: 30px;
+    }
+}

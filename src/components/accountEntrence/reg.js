@@ -1,19 +1,22 @@
-import  React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import 'antd/dist/antd.css';
 import '../../../node_modules/antd/dist/antd.css';
-import {useDispatch, useSelector} from "react-redux";
-import {registration} from "../../redux/API/API";
+import { useDispatch, useSelector } from "react-redux";
+import { registration } from "../../redux/API/API";
 import { Typography } from 'antd';
+import { LockOutlined, UserOutlined, MailOutlined } from '@ant-design/icons';
+import  {confPass, pass, mail, name, phone} from "../validators/validators";
 
 const { Text } = Typography;
-import {
-    Form,
-    Select,
-    Button,
-    Input
-  } from 'antd';
 
- const { Option } = Select;
+import {
+  Form,
+  Select,
+  Button,
+  Input
+} from 'antd';
+
+//const { Option } = Select;
 // const residences = [
 //   {
 //     value: 'zhejiang',
@@ -48,46 +51,16 @@ import {
 //     ],
 //   },
 // ];
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+
 
 let Registration = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const onFinish = (values) => {
-
-      dispatch(registration(values));
+    dispatch(registration(values));
   };
-  const account = useSelector(state => state.account); 
-  
+
+  const account = useSelector(state => state.account);
   // const prefixSelector = (
   //   <Form.Item name="prefix" noStyle>
   //     <Select style={{ width: 100 }}>
@@ -96,18 +69,13 @@ let Registration = () => {
   //   </Form.Item>
   // );
 
-  const [autoCompleteResult, setAutoCompleteResult] = useState ([]);
+  // const [autoCompleteResult, setAutoCompleteResult] = useState ([]);
 
-    return  <Form
-    {...formItemLayout}
+  return <Form
+    
     form={form}
     name="register"
     onFinish={onFinish}
-    initialValues={{
-      residence: ['zhejiang', 'hangzhou', 'xihu'],
-      prefix: '+375',
-    }}
-    scrollToFirstError
   >
     {/* <Form.Item
       name="email"
@@ -126,37 +94,85 @@ let Registration = () => {
       <Input />
     </Form.Item> */}
 
-<Form.Item
+    <Form.Item
       name="username"
-      label="Nickname"
-      tooltip="Ваше имя"
       rules={[
         {
           required: true,
-          message: 'Введите ваше имя',
+          message: '',
           whitespace: true,
         },
+        () => ({
+          validator(_, value) {
+           return name(value)
+          },
+        })
       ]}
     >
-      <Input />
+    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+    </Form.Item>
+    <Form.Item
+      name="email"
+      rules={[
+        {
+          required: true,
+          message: '',
+          whitespace: true,
+        },
+        () => ({
+          validator(_, value) {
+           return mail(value)
+          },
+        })
+      ]}
+    >
+    <Input prefix={<MailOutlined  className="site-form-item-icon" />} placeholder="E-mail" />
+    </Form.Item>
+    <Form.Item
+      name="phone"
+      rules={[
+        {
+          required: true,
+          message: 'Введите ваш номер',
+        },
+        ({ getFieldValue }) => ({
+          validator(_, value) {
+           return phone(value, getFieldValue('phone'))
+          },
+        })
+      ]}
+    >
+      <Input
+        addonBefore="+375"
+        style={{
+          width: '100%',
+        }}
+      />
     </Form.Item>
     <Form.Item
       name="password"
-      label="Пароль"
       rules={[
         {
           required: true,
-          message: 'Please input your password!',
+          message: '',
         },
+        () => ({
+          validator(_, value) {
+           return pass(value)
+          },
+        })
       ]}
       hasFeedback
     >
-      <Input.Password />
+      <Input.Password
+        prefix={<LockOutlined className="site-form-item-icon" />}
+        type="password"
+        placeholder="Password"
+      />
     </Form.Item>
-
+    
     <Form.Item
       name="confirm"
-      label="Подтвердите пароль"
       dependencies={['password']}
       hasFeedback
       rules={[
@@ -166,18 +182,19 @@ let Registration = () => {
         },
         ({ getFieldValue }) => ({
           validator(_, value) {
-            if (!value || getFieldValue('password') === value) {
-              return Promise.resolve();
-            }
-            return Promise.reject(new Error('Пароли не совпадают'));
+           return confPass(value, getFieldValue('password'))
           },
         }),
       ]}
     >
-      <Input.Password />
+      <Input.Password
+        prefix={<LockOutlined className="site-form-item-icon" />}
+        type="password"
+        placeholder="Confirm password"
+      />
     </Form.Item>
 
-{/* 
+    {/* 
     <Form.Item
       name="residence"
       label="Местоположение"
@@ -191,7 +208,7 @@ let Registration = () => {
     >
       <Cascader options={residences} />
     </Form.Item> */}
-{/* 
+    {/* 
     <Form.Item
       name="phone"
       label="Номер телефона"
@@ -225,11 +242,11 @@ let Registration = () => {
         <Option value="other">Другой</Option>
       </Select>
     </Form.Item> */}
-    
-    <Text type="danger">{account.error}<br/></Text>
-  
-    <Form.Item {...tailFormItemLayout}>
-      <Button type="primary" htmlType="submit">
+
+    <Text type="danger">{account.error}<br /></Text>
+
+    <Form.Item >
+      <Button style={{width: "100%"}} type="primary" htmlType="submit">
         Зарегистрироваться
       </Button>
     </Form.Item>
